@@ -1,0 +1,8 @@
+  import numpy as np
+             from sklearn.linear_model import LinearRegression
+             # model = LinearRegression()
+             # model_x = np.array(self.ls).reshape(-1,1)
+             # print(model_x.shape)
+             # model_y =  self.psf_sigma_eff
+             # model.fit(model_x, model_y)
+             # model_pred = model.predict(model_x)
