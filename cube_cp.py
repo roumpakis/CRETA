@@ -29,16 +29,25 @@ class cube_cp:
     def __init__(self):
         print('User API Created')
 
- 
-            
 
 #%%
     ##### Function for single point extraction                                #####
     ###############################################################################  
         
-    # @filename: Parameters file name. (string)
     # @aperture_type: Aperture type: 0 for Circular, 1 for Rectangular. (int)
-    # @background: Background subtraction option, same value as parameters file. (boolean)   
+    # @convolve: Fix resolution option. (Boolean)
+    # @parameters_file: Use the parameters file or the command execution option. (boolean)
+    # @user_ra: Center RA in degrees. (float)
+    # @user_dec: Center Dec in degrees. (float)
+    # @user_r_ap: user defined radius in arcsec. (float)
+    # @point_source: Point or extended source extraction option. (boolean)
+    # @lambda_ap: Wavelength that aperture is defined, only for point source (float)
+    # @apperture_currection: Apperture correction option (boolean)
+    # @centering: Center user input with a 11x11 box (boolean)
+    # @lambda_cent: Wavelength of centering (float)
+    # @background: Background subtraction option (boolean)
+    # @r_ann_in: Inner annulus radius (float)
+    # @width: Width of annulus (float)    
     ########### --> Return [df_res,data,,pec1d]   ############################
     # @df_res: A dataframe with extraction information. (pandas.DataFrame)
     # @data: A list of data elements. (list of SubeCube)
@@ -46,34 +55,36 @@ class cube_cp:
     # @pec1d: The spectrum 1D element. (Spectrum1D)        
     ###############################################################################   
         
-    def singleParamsFile(self, aperture_type=1, convolve=False, parameters_file = True, user_ra=0, user_dec=0,\
-                         user_r_ap=0.25, point_source=False, lambda_ap = 5, apperture_currection=False,centering=False,\
+    def singlePointExtraction(self, aperture_type=1, convolve=False, parameters_file = True, user_ra=0, user_dec=0,\
+                         user_r_ap=[0.25], point_source=False, lambda_ap = 5, apperture_currection=False,centering=False,\
                         lambda_cent=5,background=False, r_ann_in=1.23, ann_width=0.2):
         path = current_path+"\\Results\\"
         filename = current_path+'\\params.txt'
         import time 
-        [df_res,data,meta] = self.CRETA(filename,"",aperture_type,[],0,convolve, parameters_file)  
+        [df_res,data,meta] = self.CRETA(filename,"",aperture_type,[],0,convolve,  \
+                            user_ra, user_dec,user_r_ap, point_source, lambda_ap, apperture_currection,centering, \
+                                lambda_cent,background, r_ann_in, ann_width,parameters_file)
+        
         pec1d = self.create1DSpectrum(df_res,meta)
         
         ts = time.time()
-
         now = datetime.datetime.now()
         now = now.strftime("%Y-%m-%d %H:%M:%S")
         now_str = str(now)
         now_str = now_str.replace(':', '-')
         now_str = now_str.replace(' ', '_')
         outname = path+"JWST_"+str(now_str)+"singe_extraction_spec1d.fits"
-        # pec1d.write(outname) # write the fits file
-        # print(type(([df_res])), type(False), type("list_"+outname),type([pec1d]), type(False),  type(df_res['Band_name']) )
+
+
         namesList = (df_res['Band_name'].values.tolist())  
         for i in range(len(namesList)):
             namesList[i] = str(namesList[i])
         plt.plot(namesList)
         plt.show()
-        print(namesList, type(namesList))
         t = self.customFITSWriter([df_res], False, outname,[pec1d], False,  namesList)  
         
         self.plotStoreApertures(data, background)
+        print('>> Single Point extraction execution time: ' + str(time.time() - ts ))
         return [df_res,data, meta,pec1d]
 #%%
     
@@ -82,10 +93,19 @@ class cube_cp:
     # @params_file_name:  The filename where the parameters set is stored. (string)
     # @fid: The file identity, a name for output file separation. (string) 
     # @aperture_type: Aperture type: 0 for Circular, 1 for Rectangular. (int)  
-    # @names: A list of grid extraction output filenames. (list of strings)
-    # @grid_extraction: Use 1 for grid extraction and 0 for single extraction. (int)
-    # @grid_NX: Number of grid centers in X axe. (int) 
-    # @grid_NY: Number of grid centers in Y axe. (int)    
+    # @convolve: Fix resolution option. (Boolean)
+    # @parameters_file: Use the parameters file or the command execution option. (boolean)
+    # @user_ra: Center RA in degrees. (float)
+    # @user_dec: Center Dec in degrees. (float)
+    # @user_r_ap: user defined radius in arcsec. (float)
+    # @point_source: Point or extended source extraction option. (boolean)
+    # @lambda_ap: Wavelength that aperture is defined, only for point source (float)
+    # @apperture_currection: Apperture correction option (boolean)
+    # @centering: Center user input with a 11x11 box (boolean)
+    # @lambda_cent: Wavelength of centering (float)
+    # @background: Background subtraction option (boolean)
+    # @r_ann_in: Inner annulus radius (float)
+    # @width: Width of annulus (float)    
     # @grid_distance: distance between 2 points on grid in arcseconds. (float) 
     ########### --> Return [df,realData_all,meta_dict]############################
     # @df: A dataframe with extraction information. (pandas.DataFrame)
@@ -93,9 +113,9 @@ class cube_cp:
     # @meta_dict: Dictionary with metadata information. (dict)
     ###############################################################################
     def CRETA(self, params_file_name, fid,aperture_type,names, grid_extraction, convolve,\
-             parameters_file = True, user_ra=0, user_dec=0,\
-                         user_r_ap=[0.25], point_source=False, lambda_ap = 5, aperture_correction=False,centering=False,\
-                        lambda_cent=5,background=False, r_ann_in=1.23, ann_width=0.2 ):
+             user_ra, user_dec,\
+                         user_r_ap, point_source, lambda_ap, aperture_correction,centering,\
+                        lambda_cent,background, r_ann_in, ann_width,parameters_file = True ):
         preprocess = MIRIPreproc ()
         
         #%%        print ('ok')
@@ -239,7 +259,7 @@ class cube_cp:
             user_ra = c.ra
             user_dec = c.dec
             
-        print("!!!!! Centering exec time': %s seconds !!!!!" % (time.time() - timePSF_loading))  
+        print("!!!!! Centering exec time': %s seconds !!!!!" % (time.time() - time_centering))  
 
         #%% Create Centroids  of Apertures PSF/ Real Data
         if aperture_correction:
@@ -314,7 +334,6 @@ class cube_cp:
             PSF_ratio = []
             spectrum_PSF_corrected = []
             error_PSF_corrected = []
-            all_PSF_correction = []
             for i in range(len(PSF_all)):
                 PSF_ratio.append([])
                 spectrum_PSF_corrected.append([])
@@ -323,7 +342,6 @@ class cube_cp:
                     PSF_ratio[i].append(np.array(PSF_all[i].PSF_correction)[j,:])
                     spectrum_PSF_corrected[i].append(np.array(realData_all[i].spectrum_PSF_corrected)[j,:])
                     error_PSF_corrected[i].append(np.array(realData_all[i].error_PSF_corrected)[j,:])
-        background_all_1d_Jy = []
         
             
         print("!!!!! Aperture Correction': %s seconds !!!!!" % (time.time() - time_create_list_all))        
@@ -407,7 +425,6 @@ class cube_cp:
 
              spectrum_PSF_corrected_all = [] 
              error_PSF_corrected_all = [] 
-             final_error= []   
              PSF_ratio_all = []      
             
             #PSF CORRECTION
@@ -772,14 +789,11 @@ class cube_cp:
                 dct_cube_lambda[cube[10]] = cubes_lambda[i]
             
          #%% Exclude the sub bands that are not on the 
-         idxs_to_remove  = []
          ii = 0
          print("BEFORE LEN: ", len(cubes)) 
          for i in cubes:
             
              if i[10] not in read_only: #if sub band is not in read only list, remove it
-                 # print("We remove: ", cubes[i][10]1)
-                 # idxs_to_remove.append(i)
                  print("Removiiiing : ", i[10], "  ", files[ii])
                  cubes.remove(i)
                  files.remove(files[ii])
