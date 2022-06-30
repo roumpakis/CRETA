@@ -1,0 +1,9 @@
+first_subband=ch_4_SHORT
+last_subband=ch_4_LONG
+x_steps =3
+y_steps =3
+r = -1
+distance = -1 
+user_ra = 0
+user_dec = 0
+user_defined_center_of_grid=False

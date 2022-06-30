@@ -1,0 +1,11 @@
+user_r_ap = 0.25, 0.35
+user_ra = 0
+user_dec = 0
+point_source = True
+lambda_ap = 14.890499866509344
+aperture_correction = True
+centering = True
+lambda_cent = 14.890499866509344
+background_sub = True
+r_ann_in = 1.23
+ann_width = 0.2
