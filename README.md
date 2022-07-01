@@ -16,8 +16,7 @@ c.singlePointExtraction(parameters_file = False)
 c.gridExtraction()
 ```
 
-##### 3. Parameterization
- Parameterization of both spectrum extraction methods can be applied.
+##### 3. Parameterization of both spectrum extraction methods can be applied.
 ###### 3.1 Single Point Extraction parameters file
 For single point extraction parametrization can be applied by changing the values of the parameters that ```params.txt``` file contains. 
 ```python 
