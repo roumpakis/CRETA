@@ -24,7 +24,7 @@ c.singlePointExtraction(parameters_file = True)
 ```
 ---
 
-##### Parameters Set
+#### Single Point Extraction Parameters
 | Parameter    | Default Value | Data Type |
 |--------------|:-----:|-----------:|
 | aperture_type   |  1 |        int |
@@ -42,3 +42,27 @@ c.singlePointExtraction(parameters_file = True)
 | background        |  False |       bool|
 | r_ann_in         |  1.23 |        float|
 | ann_width        |  0.2 |        float|
+
+plots=False, first_subband = 'G140H', last_subband = 'ch_4_LONG', x_steps = -1, y_steps = -1, distance = -1, user_centroid=False, 
+
+#### Grid Extraction Parameters
+| Parameter    | Default Value | Data Type |
+|--------------|:-----:|-----------:|
+| convolve        |  False |    bool|
+| parameters_file |  False |    bool|
+| user_ra         |  0 |        float|
+| user_dec        |  0 |        float|
+| r     | -1|       float|
+| point_source   | False |       bool|
+| parameters_file |  False |    bool|
+| lambda_ap       |  0 |        float|
+| apperture_correction        |  False |       bool|
+| centering |  False |    bool|
+| lambda_cent       |  5 |        float|
+| first_subband | 'G140H' | string |
+| last_subband  | 'ch_4_LONG' | string |
+| x_steps | -1 | int |
+|y_steps|-1|int|
+|distance|-1|float|
+|user_centroid|False|bool|
+
