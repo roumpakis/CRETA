@@ -3,7 +3,7 @@
 # Introduction #
 CRETA is a spectra extraction tool for astronomical images. It has two different modes: the single point and the grid extraction. CRETA also provides a rich set of preprocessing options and extractions can highly parameterized. 
 
-Markup : ![picture alt](https://github.com/roumpakis/CRETA/blob/main/Images/22.png?raw=true "CRETA")
+ ![picture alt](https://github.com/roumpakis/CRETA/blob/main/Images/22.png?raw=true "CRETA")
 ---
 #### How to run it
 ##### 1. Create a ```cube_cp``` object that gives access to both extraction options
