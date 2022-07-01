@@ -1,5 +1,9 @@
 # CRETA Spectrum Extraction Tool
+---
+# Introduction #
 
+
+Markup : ![picture alt](http://via.placeholder.com/200x150 "CRETA")
 ---
 #### How to run it
 ##### 1. Create a ```cube_cp``` object that gives access to both extraction options
