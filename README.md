@@ -23,3 +23,22 @@ For single point extraction parametrization can be applied by changing the value
 c.singlePointExtraction(parameters_file = True)
 ```
 ---
+
+##### Parameters Set
+| Parameter    | Default Value | Data Type |
+|--------------|:-----:|-----------:|
+| aperture_type   |  1 |        int |
+| convolve        |  False |    bool|
+| parameters_file |  False |    bool|
+| user_ra         |  0 |        float|
+| user_dec        |  0 |        float|
+| user_r_ap      | [0.25]|       list|
+| point_source   | True |       bool|
+| parameters_file |  False |    bool|
+| lambda_ap       |  5 |        float|
+| apperture_correction        |  False |       bool|
+| centering |  False |    bool|
+| lambda_cent       |  5 |        float|
+| background        |  False |       bool|
+| r_ann_in         |  1.23 |        float|
+| ann_width        |  0.2 |        float|
