@@ -23,7 +23,7 @@ For single point extraction parametrization can be applied by changing the value
 c.singlePointExtraction(parameters_file = True)
 ```
 ---
-
+---
 #### Single Point Extraction Parameters
 | Parameter    | Default Value | Data Type |
 |--------------|:-----:|-----------:|
@@ -43,7 +43,6 @@ c.singlePointExtraction(parameters_file = True)
 | r_ann_in         |  1.23 |        float|
 | ann_width        |  0.2 |        float|
 
-plots=False, first_subband = 'G140H', last_subband = 'ch_4_LONG', x_steps = -1, y_steps = -1, distance = -1, user_centroid=False, 
 
 #### Grid Extraction Parameters
 | Parameter    | Default Value | Data Type |
@@ -65,4 +64,4 @@ plots=False, first_subband = 'G140H', last_subband = 'ch_4_LONG', x_steps = -1, 
 |y_steps|-1|int|
 |distance|-1|float|
 |user_centroid|False|bool|
-
+---
