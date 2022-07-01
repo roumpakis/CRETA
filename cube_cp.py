@@ -56,13 +56,13 @@ class cube_cp:
     ###############################################################################   
         
     def singlePointExtraction(self, aperture_type=1, convolve=False, parameters_file = True, user_ra=0, user_dec=0,\
-                         user_r_ap=[0.25], point_source=False, lambda_ap = 5, apperture_currection=False,centering=False,\
+                         user_r_ap=[0.25], point_source=True, lambda_ap = 5, apperture_correction=False,centering=False,\
                         lambda_cent=5,background=False, r_ann_in=1.23, ann_width=0.2):
         path = current_path+"\\Results\\"
         filename = current_path+'\\params.txt'
         import time 
         [df_res,data,meta] = self.CRETA(filename,"",aperture_type,[],0,convolve,  \
-                            user_ra, user_dec,user_r_ap, point_source, lambda_ap, apperture_currection,centering, \
+                            user_ra, user_dec,user_r_ap, point_source, lambda_ap, apperture_correction,centering, \
                                 lambda_cent,background, r_ann_in, ann_width,parameters_file)
         
         pec1d = self.create1DSpectrum(df_res,meta)
@@ -731,7 +731,7 @@ class cube_cp:
     ########### --> Return cube_data  ############################
     # @res_spec1d: A list of data sub-channels. (list of SubCube)        
     ###############################################################################     
-    def gridExtractio(self, point_source = False,lambda_ap=0,  centering = False, lambda_cnt = 0, parameters_file = False, plots=False, first_subband = 'G140H', last_subband = 'ch_4_LONG', x_steps = -1, y_steps = -1, r = -1, distance = -1, user_ra = 0, user_dec = 0,  user_centroid=False, aperture_correction = False, convolve=False):
+    def gridExtraction(self, point_source = False,lambda_ap=0,  centering = False, lambda_cnt = 0, parameters_file = False, plots=False, first_subband = 'G140H', last_subband = 'ch_4_LONG', x_steps = -1, y_steps = -1, r = -1, distance = -1, user_ra = 0, user_dec = 0,  user_centroid=False, aperture_correction = False, convolve=False):
         
         #%% create the read only list 
          cubesNames = [ 'G140H', 'ch_1_SHORT','ch_1_MEDIUM', 'ch_1_LONG' ,\
@@ -754,7 +754,7 @@ class cube_cp:
                  user_ra = float(all_grid_params[6])
                  user_dec = float(all_grid_params[7])
                  user_centroid = all_grid_params[8] == 'True'
-         print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ ', first_subband)   
+       
          
          
          
