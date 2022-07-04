@@ -5,6 +5,17 @@ CRETA is a spectra extraction tool for astronomical images. It has two different
 
  ![picture alt](https://github.com/roumpakis/CRETA/blob/main/Images/22.png?raw=true "CRETA")
 ---
+# Files & Folders Description #
+| Filename    |Description |
+|--------------|:-----:|
+| cube_cp.py   |  Contains main functionality of CRETA, the only objects that user will interact with|   
+| SubCube.py       |  Represents the information associated with each sub-band |
+| UserAPI.py   | Class for file handling |   
+| MIRIPreproc.py       |Class that contains functionality in order to create a modular system  |
+| convolve_miricubes.py      | aaa |
+| mylmfit2dfun.py   | aaa |   
+| params.txt     |Text file that contains parameters for single point extraction |
+---
 #### How to run it
 ##### 1. Create a ```cube_cp``` object that gives access to both extraction options
 ```python 
