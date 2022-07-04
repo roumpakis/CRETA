@@ -4,7 +4,7 @@
 CRETA is a spectra extraction tool for astronomical images. It has two different modes: the single point and the grid extraction. CRETA also provides a rich set of preprocessing options and extractions can highly parameterized. 
 
  ![picture alt](https://github.com/roumpakis/CRETA/blob/main/Images/22.png?raw=true "CRETA")
----
+
 # Files & Folders Description #
 | Filename    |Description |
 |--------------|:-----:|
@@ -16,6 +16,25 @@ CRETA is a spectra extraction tool for astronomical images. It has two different
 | mylmfit2dfun.py   | aaa |   
 | params.txt     |Text file that contains parameters for single point extraction |
 ---
+
+| Filename    |Description |
+|--------------|:-----:|
+| Data   |  Contains data .fits files  |   
+| PSF    | Contains PSF fits files|
+| PSF_INF   | Infinite Flux per PSF sub band  |   
+| Centroid_Sky  |Centroids of PSF sub bands in sky coordinates 
+| Centroids |  Centroids of PSF sub bands in pixel coordinates  |
+| Sigma_Eff |Sigma Effective per PSF sub band |
+| Results |  Folder that CRETA saves output files |
+
+
+
+
+
+
+
+
+
 #### How to run it
 ##### 1. Create a ```cube_cp``` object that gives access to both extraction options
 ```python 
