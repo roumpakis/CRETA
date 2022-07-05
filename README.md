@@ -45,7 +45,8 @@ c = cube_cp()
 c.singlePointExtraction(parameters_file = False)
 c.gridExtraction()
 ```
-```gridExtraction ``` with default parameters  
+```gridExtraction ``` with default parameters  defines a grid that covers the whole FoV of the sub-band with at  the larger larger wavelength. Then, CRETA performs the extraction based on that grid. 
+
 ![image](https://user-images.githubusercontent.com/60132957/177275175-442c3ca5-2a65-48ab-a4ca-38b121aceff2.png)
 
 
