@@ -73,7 +73,7 @@ c.singlePointExtraction(parameters_file = True)
 For single point extraction parametrization can be also applied when calling the ```singlePointExtraction``` from command line. User can define a subset or the whole parameters option based on the desired extraction.
 
 ```python 
-c.singlePointExtraction(user_ra=0.25, user_dec=0.25, centering= True, point_source=False)
+c.singlePointExtraction(user_ra=0.25, user_dec=0.25, centering= True,lambda_cent=5.5, point_source=False)
 ```
 ---
 
@@ -87,7 +87,7 @@ c.singlePointExtraction(user_ra=0.25, user_dec=0.25, centering= True, point_sour
 ```lambda_ap:``` Wavelength that aperture is defined, only for point source.<br/>
 ```apperture_correction:``` Apperture correction option.<br/>
 ```centering:``` Center user input with a 11x11 box.<br/>
-```lambda_cent:``` Wavelength of centering.<br/>
+```lambda_cnt:``` Wavelength of centering.<br/>
 ```first_subband:``` Sub-band name with the shortest desired wavelength.<br/>
 ```last_subband:``` Sub-band name with the longest desired wavelength.<br/>
 ```x_steps:``` Grid points in X coordinate. Use -1 value for default option.<br/>
@@ -99,10 +99,15 @@ c.singlePointExtraction(user_ra=0.25, user_dec=0.25, centering= True, point_sour
 ###### 3.3 Single Point Extraction parameters file
 For grid extraction parametrization can be applied by changing the values of the parameters that ```grid_params.txt``` file contains. 
 ```python 
-c.singlePointExtraction(parameters_file = True)
+c.gridExtraction(parameters_file = True)
 ```
 ###### 3.4 Single Point command line parametrization
-For single point extraction parametrization can be also applied when calling the ```singlePointExtraction``` from command line. User can define a subset or the whole parameters option based on the desired extraction.
+For single point extraction parametrization can be also applied when calling the ```gridExtraction``` from command line. User can define a subset or the whole parameters option based on the desired extraction.
+
+
+```python 
+c.gridExtraction(user_ra=0.25, user_dec=0.25, centering= True, lambda_cnt = 8.5, point_source=False,first_subband ='ch_2_SHORT', last_subband='ch_2_LONG' )
+```
 
 ---
 #### Single Point Extraction Parameters
