@@ -62,16 +62,17 @@ c.gridExtraction()
 ```background:``` Background subtraction option.<br/>
 ```r_ann_in:``` Inner annulus radius.<br/>
 ```width:``` Width of annulus.<br/>
----
+
 ###### 3.1 Single Point Extraction parameters file
 For single point extraction parametrization can be applied by changing the values of the parameters that ```params.txt``` file contains. 
 ```python 
 c.singlePointExtraction(parameters_file = True)
 ```
 ###### 3.2 Single Point command line parametrization
-For single point extraction parametrization can be also applied when calling the ```singlePointExtraction``` from command line.  
+For single point extraction parametrization can be also applied when calling the ```singlePointExtraction``` from command line. User can define a subset or the whole parameters option based on the desired extraction.
+
 ```python 
-c.singlePointExtraction(parameters_file = True)
+c.singlePointExtraction(user_ra=0.25, user_dec=0.25, centering= True, point_source=False)
 ```
 ---
 
