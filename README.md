@@ -51,6 +51,7 @@ c.gridExtraction()
 
 
 ##### 3. Parameterization of both spectrum extraction methods can be applied.
+<sub>
 Single Extraction parameters <br/>
 ```perture_type:```  Aperture type: 0 for Circular, 1 for Rectangular. (int)<br/>
 ```convolve:``` Fix resolution option. (Boolean)<br/>
@@ -66,6 +67,7 @@ Single Extraction parameters <br/>
 ```background:``` Background subtraction option (boolean)<br/>
 ```r_ann_in:``` Inner annulus radius (float)<br/>
 ```width:``` Width of annulus (float)  <br/>
+ </sub>
 ---
 ###### 3.1 Single Point Extraction parameters file
 For single point extraction parametrization can be applied by changing the values of the parameters that ```params.txt``` file contains. 
