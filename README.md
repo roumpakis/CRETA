@@ -15,7 +15,8 @@ CRETA is a spectra extraction tool for astronomical images. It has two different
 | convolve_miricubes.py      | aaa |
 | mylmfit2dfun.py   | aaa |   
 | params.txt     |Text file that contains parameters for single point extraction |
----
+| grid_params.txt     |Text file that contains parameters for grid  extraction |
+
 
 | Filename    |Description |
 |--------------|:-----:|
@@ -47,7 +48,7 @@ c.gridExtraction()
 
 ##### 3. Parameterization of both spectrum extraction methods can be applied.
 
-***Single Extraction*** parameters <br/>
+***Single Extraction parameters***  <br/>
 ```aperture_type:```  Aperture type: 0 for Circular, 1 for Rectangular.<br/>
 ```convolve:``` Fix resolution option.<br/>
 ```parameters_file:``` Use the parameters file or the command execution option.<br/>
@@ -95,6 +96,13 @@ c.singlePointExtraction(user_ra=0.25, user_dec=0.25, centering= True, point_sour
 ```distance:``` Distance between two grid points. Use -1 for default option, which is the pixel scale of the sub-band at the longest wavelength. <br/>
 ```user_centroid:``` Use user defined center or not.<br/>
 
+###### 3.3 Single Point Extraction parameters file
+For grid extraction parametrization can be applied by changing the values of the parameters that ```grid_params.txt``` file contains. 
+```python 
+c.singlePointExtraction(parameters_file = True)
+```
+###### 3.4 Single Point command line parametrization
+For single point extraction parametrization can be also applied when calling the ```singlePointExtraction``` from command line. User can define a subset or the whole parameters option based on the desired extraction.
 
 ---
 #### Single Point Extraction Parameters
