@@ -69,7 +69,7 @@ For single point extraction parametrization can be applied by changing the value
 ```python 
 c.singlePointExtraction(parameters_file = True)
 ```
-###### 3.2 Single Point command line parametrization
+###### 3.2 Single Point Extraction command line parametrization
 For single point extraction parametrization can be also applied when calling the ```singlePointExtraction``` from command line. User can define a subset or the whole parameters option based on the desired extraction.
 
 ```python 
@@ -96,12 +96,12 @@ c.singlePointExtraction(user_ra=0.25, user_dec=0.25, centering= True,lambda_cent
 ```distance:``` Distance between two grid points. Use -1 for default option, which is the pixel scale of the sub-band at the longest wavelength. <br/>
 ```user_centroid:``` Use user defined center or not.<br/>
 
-###### 3.3 Single Point Extraction parameters file
+###### 3.3 Grid Extraction parameters file
 For grid extraction parametrization can be applied by changing the values of the parameters that ```grid_params.txt``` file contains. 
 ```python 
 c.gridExtraction(parameters_file = True)
 ```
-###### 3.4 Single Point command line parametrization
+###### 3.4 Grid Extraction command line parametrization
 For single point extraction parametrization can be also applied when calling the ```gridExtraction``` from command line. User can define a subset or the whole parameters option based on the desired extraction.
 
 
