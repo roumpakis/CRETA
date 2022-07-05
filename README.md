@@ -62,7 +62,17 @@ c.gridExtraction()
 ```background:``` Background subtraction option.<br/>
 ```r_ann_in:``` Inner annulus radius.<br/>
 ```width:``` Width of annulus.<br/>
-
+---
+###### 3.1 Single Point Extraction parameters file
+For single point extraction parametrization can be applied by changing the values of the parameters that ```params.txt``` file contains. 
+```python 
+c.singlePointExtraction(parameters_file = True)
+```
+###### 3.2 Single Point command line parametrization
+For single point extraction parametrization can be also applied when calling the ```singlePointExtraction``` from command line.  
+```python 
+c.singlePointExtraction(parameters_file = True)
+```
 ---
 
 ***Grid Extraction parameters*** <br/>
@@ -84,12 +94,7 @@ c.gridExtraction()
 ```distance:``` Distance between two grid points. Use -1 for default option, which is the pixel scale of the sub-band at the longest wavelength. <br/>
 ```user_centroid:``` Use user defined center or not.<br/>
 
-###### 3.1 Single Point Extraction parameters file
-For single point extraction parametrization can be applied by changing the values of the parameters that ```params.txt``` file contains. 
-```python 
-c.singlePointExtraction(parameters_file = True)
-```
----
+
 ---
 #### Single Point Extraction Parameters
 | Parameter    | Default Value | Data Type |
