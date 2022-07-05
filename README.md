@@ -30,11 +30,6 @@ CRETA is a spectra extraction tool for astronomical images. It has two different
 
 
 
-
-
-
-
-
 #### How to run it
 ##### 1. Create a ```cube_cp``` object that gives access to both extraction options
 ```python 
@@ -51,9 +46,9 @@ c.gridExtraction()
 
 
 ##### 3. Parameterization of both spectrum extraction methods can be applied.
-<sub>
+
 Single Extraction parameters <br/>
-```perture_type:```  Aperture type: 0 for Circular, 1 for Rectangular. (int)<br/>
+```aperture_type:```  Aperture type: 0 for Circular, 1 for Rectangular. (int)<br/>
 ```convolve:``` Fix resolution option. (Boolean)<br/>
 ```parameters_file:``` Use the parameters file or the command execution option. (boolean)<br/>
 ```user_ra:``` Center RA in degrees. (float)<br/>
@@ -61,14 +56,35 @@ Single Extraction parameters <br/>
 ```user_r_ap:``` user defined radius in arcsec. (float)<br/>
 ```point_source:``` Point or extended source extraction option. (boolean)<br/>
 ```lambda_ap:``` Wavelength that aperture is defined, only for point source (float)<br/>
-```apperture_currection:``` Apperture correction option (boolean)<br/>
+```apperture_correction:``` Apperture correction option (boolean)<br/>
 ```centering:``` Center user input with a 11x11 box (boolean)<br/>
 ```lambda_cent:``` Wavelength of centering (float)<br/>
 ```background:``` Background subtraction option (boolean)<br/>
 ```r_ann_in:``` Inner annulus radius (float)<br/>
 ```width:``` Width of annulus (float)  <br/>
- </sub>
+
 ---
+gridExtraction( first_subband = 'G140H', last_subband = 'ch_4_LONG', x_steps = -1, y_steps = -1, r = -1, distance = -1,  user_centroid=False,
+
+Grid Extraction parameters <br/>
+```convolve:``` Fix resolution option. (Boolean)<br/>
+```parameters_file:``` Use the parameters file or the command execution option. (boolean)<br/>
+```user_ra:``` Center RA in degrees. (float)<br/>
+```user_dec:``` Center Dec in degrees. (float)<br/>
+```user_r_ap:``` user defined radius in arcsec. (float)<br/>
+```point_source:``` Point or extended source extraction option. (boolean)<br/>
+```lambda_ap:``` Wavelength that aperture is defined, only for point source (float)<br/>
+```apperture_correction:``` Apperture correction option (boolean)<br/>
+```centering:``` Center user input with a 11x11 box (boolean)<br/>
+```lambda_cent:``` Wavelength of centering (float)<br/>
+```first_subband:``` Point or extended source extraction option. (boolean)<br/>
+```last_subband:``` Wavelength that aperture is defined, only for point source (float)<br/>
+```x_steps:``` Apperture correction option (boolean)<br/>
+```y_steps:``` Center user input with a 11x11 box (boolean)<br/>
+```r:``` Wavelength of centering (float)<br/>
+```distance:``` Center user input with a 11x11 box (boolean)<br/>
+```user_centroid:``` Wavelength of centering (float)<br/>
+
 ###### 3.1 Single Point Extraction parameters file
 For single point extraction parametrization can be applied by changing the values of the parameters that ```params.txt``` file contains. 
 ```python 
