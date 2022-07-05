@@ -51,21 +51,21 @@ c.gridExtraction()
 
 
 ##### 3. Parameterization of both spectrum extraction methods can be applied.
-**Single Extraction parameters**
-```perture_type:```  Aperture type: 0 for Circular, 1 for Rectangular. (int)
-```convolve:``` Fix resolution option. (Boolean)
-```parameters_file:``` Use the parameters file or the command execution option. (boolean)
-```user_ra:``` Center RA in degrees. (float)
-```user_dec:``` Center Dec in degrees. (float)
-```user_r_ap:``` user defined radius in arcsec. (float)
-```point_source:``` Point or extended source extraction option. (boolean)
-```lambda_ap:``` Wavelength that aperture is defined, only for point source (float)
-```apperture_currection:``` Apperture correction option (boolean)
-```centering:``` Center user input with a 11x11 box (boolean)
-```lambda_cent:``` Wavelength of centering (float)
-```background:``` Background subtraction option (boolean)
-```r_ann_in:``` Inner annulus radius (float)
-```width:``` Width of annulus (float) 
+Single Extraction parameters <br/>
+```perture_type:```  Aperture type: 0 for Circular, 1 for Rectangular. (int)<br/>
+```convolve:``` Fix resolution option. (Boolean)<br/>
+```parameters_file:``` Use the parameters file or the command execution option. (boolean)<br/>
+```user_ra:``` Center RA in degrees. (float)<br/>
+```user_dec:``` Center Dec in degrees. (float)<br/>
+```user_r_ap:``` user defined radius in arcsec. (float)<br/>
+```point_source:``` Point or extended source extraction option. (boolean)<br/>
+```lambda_ap:``` Wavelength that aperture is defined, only for point source (float)<br/>
+```apperture_currection:``` Apperture correction option (boolean)<br/>
+```centering:``` Center user input with a 11x11 box (boolean)<br/>
+```lambda_cent:``` Wavelength of centering (float)<br/>
+```background:``` Background subtraction option (boolean)<br/>
+```r_ann_in:``` Inner annulus radius (float)<br/>
+```width:``` Width of annulus (float)  <br/>
 ---
 ###### 3.1 Single Point Extraction parameters file
 For single point extraction parametrization can be applied by changing the values of the parameters that ```params.txt``` file contains. 
