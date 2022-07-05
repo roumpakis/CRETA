@@ -45,6 +45,9 @@ c = cube_cp()
 c.singlePointExtraction(parameters_file = False)
 c.gridExtraction()
 ```
+```gridExtraction ``` with default parameters  
+![image](https://user-images.githubusercontent.com/60132957/177275175-442c3ca5-2a65-48ab-a4ca-38b121aceff2.png)
+
 
 ##### 3. Parameterization of both spectrum extraction methods can be applied.
 ###### 3.1 Single Point Extraction parameters file
