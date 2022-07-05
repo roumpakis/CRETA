@@ -151,3 +151,9 @@ c.gridExtraction(user_ra=0.25, user_dec=0.25, centering= True, lambda_cnt = 8.5,
 |distance|-1|float|
 |user_centroid|False|bool|
 ---
+
+
+
+
+
+
