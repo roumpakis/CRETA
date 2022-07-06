@@ -775,7 +775,9 @@ class cube_cp:
          files = os.listdir(path)
          for i in files: #exclude hidden files from mac
             if i.startswith('.'):
-                files.remove(i)      
+                files.remove(i)  
+                
+         print('MPL MPL MPL ',read_only)       
          cubes = []
          cubes_lambda = []
          dct_cube_file = {}
@@ -791,35 +793,48 @@ class cube_cp:
          #%% Exclude the sub bands that are not on the 
          ii = 0
          print("BEFORE LEN: ", len(cubes)) 
-         for i in cubes:
+         cubes_new = []
+         files_new = []
+         cubes_lambda_new = []
+         for i in range(len(cubes)):
             
-             if i[10] not in read_only: #if sub band is not in read only list, remove it
-                 print("Removiiiing : ", i[10], "  ", files[ii])
-                 cubes.remove(i)
-                 files.remove(files[ii])
-                 cubes_lambda.remove(cubes_lambda[ii])
-             ii = ii+1
+         #     if i[10] not in read_only: #if sub band is not in read only list, remove it
+         #         print("Removiiiing : ", i[10], "  ", files[ii])
+         #         cubes.remove(i)
+         #         files.remove(files[ii])
+         #         cubes_lambda.remove(cubes_lambda[ii])
+         #     ii = ii+1
 
-         print("AFTER LEN: ",len(cubes))   
+         # print("AFTER LEN: ",len(cubes))   
         
-         files = []
-         cubes_lambda = []
-         read_only_cp = read_only.copy()
-         for ix in range(len(read_only)):
-            if read_only[ix] in dct_cube_file.keys(): 
-                files.append(dct_cube_file[read_only[ix]])   
-                cubes_lambda.append(dct_cube_lambda[read_only[ix]]) 
-            else:
-                read_only_cp.remove(read_only[ix])
+         # files = []
+         # cubes_lambda = []
+         # read_only_cp = read_only.copy()
+         # for ix in range(len(read_only)):
+         #    if read_only[ix] in dct_cube_file.keys(): 
+         #        files.append(dct_cube_file[read_only[ix]])   
+         #        cubes_lambda.append(dct_cube_lambda[read_only[ix]]) 
+         #    else:
+         #        read_only_cp.remove(read_only[ix])
          
-         read_only = read_only_cp
+         # read_only = read_only_cp
+             
+             if cubes[i][10]  in read_only: #if sub ban 
+                 cubes_new.append(cubes[i])
+                 files_new.append(files[i])
+                 cubes_lambda_new.append(cubes_lambda[i])
+             
          print("READ ONLUUUUU ", read_only, files) 
+         cubes = cubes_new
+         cubes_lambda = cubes_lambda_new
+         files = files_new
          #%%   
          [cubes_sorted ,asx]= user.sortCubesByLambda(cubes,cubes_lambda,files)   
+         for i in cubes:
+             print('a onomata ', i[10])
          for i in files:
              print("AOUAOAUA",i)
-         # filename = files[-1]
-         cube_data = cubes[-1]
+         cube_data = cubes_sorted[-1]
          print('Kai xrhsimopoioume ws cube ton: ', cube_data[10])
          image = cube_data[0].copy()
          
@@ -847,7 +862,6 @@ class cube_cp:
          if distance < 0:
             distance = 2*r 
          
-            
             
          print(image.shape)
          [NZ, NY, NX ] = image.shape
@@ -980,7 +994,7 @@ class cube_cp:
              if aperture_correction:    ## APERTURE CORRECTIO !!!! ###
                 PSF_correction_ratio = []
                 subband_correction_ratio = []
-    
+                # calculate 1 correction value and apply for each spaxel
     
                 for i in range(len(PSF_all)):
                     PSF_cnt_sky_list =  preprocess.PSFCenteringSky(PSF_all[i])
