@@ -571,7 +571,12 @@ class SubCube:
                 #### FOR NOW IT IS HARDCODED !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                  # self.psf_sigma_eff.append( self.ls[waveind] / 5 * 0.33 ) # Units of arcsecond
                     
-
+            #for ch_4 Long use the first half of the values
+                 
+                 
+                 
+                 
+                 
              import numpy as np
              from sklearn.linear_model import LinearRegression
              model = LinearRegression()
@@ -674,3 +679,21 @@ class SubCube:
         plt.title(self.name_band+ ' \nError After Conv')
         plt.show()       
 
+    def PSFGridPhotometry(self):
+        print('>> Fix Data With conv')
+        delta_factor = self.CDELT1_pix*self.CDELT2_pix
+        apers = []
+        photometries = []
+        print('AAAAAAAAAAAAAAAAAAAAAAAAAAAA')
+        for i in range(len(self.rs[0])):
+            # print(self.xys[i][0], self.xys[i][1],  self.rs[0][0], np.array( self.rs)[0,0] )
+            aper = RectangularAperture([self.xys[i][0],self.xys[i][1]], self.rs[0][i], self.rs[0][i])
+            apers.append(aper)
+            phot_table = aperture_photometry(self.image_before[i,:,:], aper, wcs=self.wcs,error = self.error_data[i,:,:])
+            photometries.append(phot_table["aperture_sum"])
+        print(phot_table)
+        print('exw mazepsei sunolika ', len(apers)) 
+        return photometries
+       
+
+        

@@ -32,12 +32,20 @@ class userAPI:
         # print("OPA TOUMPA :", files)        
         PSFCubes = []
         cubes_lambda = []
+        print(read_only)
+        new_files = []
         for i in range(len(files)):
+                
+                
                 cube =preprocess.getFITSData(path+files[i])
-                PSFCubes.append(cube)
-                cubes_lambda.append(cube[4])
-              
-        [PSFs , files ]= self.sortCubesByLambda(PSFCubes,cubes_lambda,files)
+                if cube[10] in read_only:
+                    print('Loading and .......... ', cube[10])
+                    PSFCubes.append(cube)
+                    cubes_lambda.append(cube[4])
+                    new_files.append(files[i])
+        for i in PSFCubes:
+            print('LALAL ', i[10])
+        [PSFs , files ]= self.sortCubesByLambda(PSFCubes,cubes_lambda,new_files)
         
         dist = np.abs(lambda_ap - PSFs[0][4])
         base_pixel_scale = PSFs[0][6] #the first cube pixel scale / shortest lambda        

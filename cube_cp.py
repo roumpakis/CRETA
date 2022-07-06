@@ -782,52 +782,56 @@ class cube_cp:
          cubes_lambda = []
          dct_cube_file = {}
          dct_cube_lambda = {}
+         new_files = []
          for i in range(len(files)):
                 cube =preprocess.getFITSData(path+files[i])
-                cubes.append(cube)
-                cubes_lambda.append(cube[4])
-                print("ANTISOTITOOT" , files[i], cube[10])
-                dct_cube_file[cube[10]] = files[i]
-                dct_cube_lambda[cube[10]] = cubes_lambda[i]
-            
+                if cube[10]  in read_only: #if sub ban 
+                    cubes.append(cube)
+                    cubes_lambda.append(cube[4])
+                    # print("ANTISOTITOOT" , files[i], cube[10])
+                    new_files.append(files[i])
+                    # dct_cube_file[cube[10]] = files[i]
+                    # dct_cube_lambda[cube[10]] = cubes_lambda[i]
+         files = new_files   
          #%% Exclude the sub bands that are not on the 
          ii = 0
          print("BEFORE LEN: ", len(cubes)) 
-         cubes_new = []
-         files_new = []
-         cubes_lambda_new = []
-         for i in range(len(cubes)):
+         # cubes_new = []
+         # files_new = []
+         # cubes_lambda_new = []
+         # for i in range(len(cubes)):
             
-         #     if i[10] not in read_only: #if sub band is not in read only list, remove it
-         #         print("Removiiiing : ", i[10], "  ", files[ii])
-         #         cubes.remove(i)
-         #         files.remove(files[ii])
-         #         cubes_lambda.remove(cubes_lambda[ii])
-         #     ii = ii+1
+         # #     if i[10] not in read_only: #if sub band is not in read only list, remove it
+         # #         print("Removiiiing : ", i[10], "  ", files[ii])
+         # #         cubes.remove(i)
+         # #         files.remove(files[ii])
+         # #         cubes_lambda.remove(cubes_lambda[ii])
+         # #     ii = ii+1
 
-         # print("AFTER LEN: ",len(cubes))   
+         # # print("AFTER LEN: ",len(cubes))   
         
-         # files = []
-         # cubes_lambda = []
-         # read_only_cp = read_only.copy()
-         # for ix in range(len(read_only)):
-         #    if read_only[ix] in dct_cube_file.keys(): 
-         #        files.append(dct_cube_file[read_only[ix]])   
-         #        cubes_lambda.append(dct_cube_lambda[read_only[ix]]) 
-         #    else:
-         #        read_only_cp.remove(read_only[ix])
+         # # files = []
+         # # cubes_lambda = []
+         # # read_only_cp = read_only.copy()
+         # # for ix in range(len(read_only)):
+         # #    if read_only[ix] in dct_cube_file.keys(): 
+         # #        files.append(dct_cube_file[read_only[ix]])   
+         # #        cubes_lambda.append(dct_cube_lambda[read_only[ix]]) 
+         # #    else:
+         # #        read_only_cp.remove(read_only[ix])
          
-         # read_only = read_only_cp
+         # # read_only = read_only_cp
              
-             if cubes[i][10]  in read_only: #if sub ban 
-                 cubes_new.append(cubes[i])
-                 files_new.append(files[i])
-                 cubes_lambda_new.append(cubes_lambda[i])
+         #     if cubes[i][10]  in read_only: #if sub ban 
+         #         cubes_new.append(cubes[i])
+         #         files_new.append(files[i])
+         #         cubes_lambda_new.append(cubes_lambda[i])
              
-         print("READ ONLUUUUU ", read_only, files) 
-         cubes = cubes_new
-         cubes_lambda = cubes_lambda_new
-         files = files_new
+         # print("READ ONLUUUUU ", read_only, files) 
+         # cubes = cubes_new
+         # cubes_lambda = cubes_lambda_new
+         # files = files_new
+         
          #%%   
          [cubes_sorted ,asx]= user.sortCubesByLambda(cubes,cubes_lambda,files)   
          for i in cubes:
@@ -900,7 +904,7 @@ class cube_cp:
                 if i.startswith('.'):
                     PSF_files .remove(i)    
             [PSF_all, pxs, bsl,base_r_list,ofn, zzz] = user.getSubCubes(PSF_path,r,point_source,  True, centering, False,0,0,lambda_ap,1, read_only, PSF_files, convolve)         
-
+            
         #%%Load Real Data
          print('\nLoading Data..')  
 
@@ -909,6 +913,7 @@ class cube_cp:
               realData_all[i].rs = [realData_all[i].rs] 
               if convolve:
                   realData_all[i].fixConvolved(PSF_all[-1].psf_sigma_eff[-1],PSF_all[i].psf_sigma_eff)
+              print(PSF_all[i].name_band)    
          print("Ta real data einaiiiii :", len(realData_all), " kai points: ", x_steps*y_steps)
          
 
@@ -983,7 +988,7 @@ class cube_cp:
              
              for i in range(len(PSF_all)):
                  PSF_sky_cnt_filename =  current_path+"\\Centroid_Sky\\sky_"+PSF_all[i].name_band+".csv"
-                 print('Bre mhpws uparxeiiiii??? ', )     
+                    
                  if   os.path.isfile(PSF_sky_cnt_filename):
                         print('Just load SKYY')
                         PSF_all[i].xys_sky = user.readCentroidSky(PSF_sky_cnt_filename) #read PSF centroids from file
@@ -997,22 +1002,29 @@ class cube_cp:
                 # calculate 1 correction value and apply for each spaxel
     
                 for i in range(len(PSF_all)):
-                    PSF_cnt_sky_list =  preprocess.PSFCenteringSky(PSF_all[i])
+                    # PSF_cnt_sky_list =  preprocess.PSFCenteringSky(PSF_all[i])
                     
-                    for j in range(len(PSF_cnt_sky_list)): #all subband slices
-                                PSF_cnt_sky = PSF_cnt_sky_list[j]
-                                # PSF_cnt_idx = PSF_cnt_idx_list[j]
-                                PSF_sky_PSF_list,pixels_indices,PSF_names, PSF_sky_ra, PSF_sky_dec = preprocess.crateGridInArcSec(PSF_cnt_sky[0].ra,PSF_cnt_sky[0].dec,distance, x_steps, y_steps, PSF_all[i], r, PSF_all, point_source, l_ap)
-                                PSF_photometry, PSF_aps, PSF_DQ_list = PSF_all[i].sliceGridExtractionPhotometry(PSF_sky_ra, PSF_sky_dec, r, PSF_all[i].image_before, plots, j)       
-    
-                               
-                                PCR = PSF_all[i].PSF_inf_flux[j] / PSF_photometry[0][:]["aperture_sum"]             
+                    # for j in range(len(PSF_cnt_sky_list)): #all subband slices
+                                # PSF_cnt_sky = PSF_cnt_sky_list[j]
+                                
+                                # PSF_sky_PSF_list,pixels_indices,PSF_names, PSF_sky_ra, PSF_sky_dec = preprocess.crateGridInArcSec(PSF_cnt_sky[0].ra,PSF_cnt_sky[0].dec,distance, x_steps, y_steps, PSF_all[i], r, PSF_all, point_source, l_ap)
+                                # PSF_photometry, PSF_aps, PSF_DQ_list = PSF_all[i].sliceGridExtractionPhotometry(PSF_sky_ra, PSF_sky_dec, r, PSF_all[i].image_before, plots, j)       
+                                PCR = []
+                                band_photos = PSF_all[i].PSFGridPhotometry()
+                                # print('Band Photozzz ',np.array(band_photos).shape)
+                                for j in range(len(band_photos)):
+                                    PCR.append(PSF_all[i].PSF_inf_flux[j] / band_photos[j])
+                                # print(PCR)
                             
-                                subband_correction_ratio.append(PCR)
-                    preprocess.plotGridSubchanel(PSF_cnt_sky[0].ra,PSF_cnt_sky[0].dec, distance, x_steps, y_steps, PSF_all[i], r)                            
-                    PSF_correction_ratio.append(np.array(subband_correction_ratio))
-                    subband_correction_ratio = []
-             PSC = np.array(PSF_correction_ratio)   
+                                PSF_correction_ratio.append(PCR)
+                    # preprocess.plotGridSubchanel(PSF_cnt_sky[0].ra,PSF_cnt_sky[0].dec, distance, x_steps, y_steps, PSF_all[i], r)                            
+                # PSF_correction_ratio.append(np.array(subband_correction_ratio))
+                # subband_correction_ratio = []
+             PSC = np.array(PSF_correction_ratio) 
+             # print(PSC[0][0])
+             print('A!@#$%',np.array(PSC[0]).shape)
+             for i in range(len(PSF_all)):
+                 print(PSF_all[i].name_band, realData_all[i].name_band)
 
                  #%% 
         ###
@@ -1073,35 +1085,23 @@ class cube_cp:
                  realData_all[i].xys = [cube_xys]
                  realData_all[i].area = all_aps[i]
                  realData_all[i].doFluxUnitCorrection()
-                 # print(PSC.shape, PSC[0].shape)
-                 #add stitching spectra\
-                 # multiplay each wavelength of real Data
-                 #iisuuee!!!
 
-                 # print( np.array(realData_all[i].corrected_spectrum).shape, (len(all_photometries[i])))
+
+                 print( np.array(realData_all[i].corrected_spectrum).shape, (len(all_photometries[i])))
+                 print(realData_all[i].name_band)
                  if aperture_correction:
-                     for j in range(len(all_photometries[i])): 
-                         realData_all[i].spectrum_PSF_corrected.append(PSC[i][j][grid_point_idx] * np.array(realData_all[i].corrected_spectrum[0,j]))
-                         realData_all[i].error_PSF_corrected.append(PSC[i][j][grid_point_idx] * np.array(realData_all[i].error[0,j]))
+                     for j in range(len(PSC[i])):
+                         # print(PSF_all[j].name_band, realData_all[j].name_band)
+                         realData_all[i].spectrum_PSF_corrected.append(PSC[i][j] * np.array(realData_all[i].corrected_spectrum[0,j]))
+                         realData_all[i].error_PSF_corrected.append(PSC[i][j] * np.array(realData_all[i].error[0,j]))
 
-                    
-                 #    # PSC_ratio .append(PSC[i][j][grid_point_idx])
-                 # plt.loglog(realData_all[i].corrected_spectrum[0], label = 'Before')
-                 # plt.loglog(realData_all[i].spectrum_PSF_corrected, label='after')
-                 # plt.title('AAAAAAAAAAAAAAAAAA ')
-                 # plt.legend()
-                 # plt.show()
-                 
-                 # PSC_flux.extend(realData_all[i].spectrum_PSF_corrected)
-                 # PSC_err.extend( realData_all[i].error_PSF_corrected)   
-             #for each grid point w have all apers and errors
+
              background = False
              # aperture_correction = False
              time_create_list_all  = time.time() 
              [all_rs_arcsec,all_ls,all_apers,all_xys,all_area_pix,all_bright,all_error_spectrum,all_corrected_spectrum,all_delta,\
               all_names,all_unit_ratio,all_background,all_r_in,all_rs,all_ps, all_psc_flux, all_psc_err] =preprocess.getSubcubesAll(realData_all,background, aperture_correction)
-             # print(np.array(all_corrected_spectrum).shape)
-             # print(np.array(all_corrected_spectrum).shape)
+
 
 
         
