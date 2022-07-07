@@ -12,8 +12,8 @@ CRETA is a spectra extraction tool for astronomical images. It has two different
 | SubCube.py       |  Represents the information associated with each sub-band |
 | UserAPI.py   | Class for file handling |   
 | MIRIPreproc.py       |Class that contains functionality in order to create a modular system  |
-| convolve_miricubes.py      | aaa |
-| mylmfit2dfun.py   | aaa |   
+| convolve_miricubes.py      | Function to fix resolution |
+| mylmfit2dfun.py   | Function to fix resolution |   
 | params.txt     |Text file that contains parameters for single point extraction |
 | grid_params.txt     |Text file that contains parameters for grid  extraction |
 
@@ -27,8 +27,6 @@ CRETA is a spectra extraction tool for astronomical images. It has two different
 | Centroids |  Centroids of PSF sub bands in pixel coordinates  |
 | Sigma_Eff |Sigma Effective per PSF sub band |
 | Results |  Folder that CRETA saves output files |
-
-
 
 
 #### How to run it
