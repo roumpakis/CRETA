@@ -43,8 +43,7 @@ class userAPI:
                     PSFCubes.append(cube)
                     cubes_lambda.append(cube[4])
                     new_files.append(files[i])
-        for i in PSFCubes:
-            print('LALAL ', i[10])
+ 
         [PSFs , files ]= self.sortCubesByLambda(PSFCubes,cubes_lambda,new_files)
         
         dist = np.abs(lambda_ap - PSFs[0][4])
