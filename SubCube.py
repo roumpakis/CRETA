@@ -570,10 +570,6 @@ class SubCube:
                  self.psf_sigma_eff.append(np.sqrt(gauss2d_fit.pars[3] * gauss2d_fit.pars[4]) * current_channel_pixel_scale) # Units of arcsecond
                 #### FOR NOW IT IS HARDCODED !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                  # self.psf_sigma_eff.append( self.ls[waveind] / 5 * 0.33 ) # Units of arcsecond
-                    
-            #for ch_4 Long use the first half of the values
-                 
-                 
                  
                  
                  
@@ -581,10 +577,23 @@ class SubCube:
              from sklearn.linear_model import LinearRegression
              model = LinearRegression()
              model_x = np.array(self.ls).reshape(-1,1)
-             print(model_x.shape)
+             # print(model_x.shape)
+             # if self.name_band == 'ch_4_LONG' and PSF:
+             #     print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa')
+             #     model_y =  self.psf_sigma_eff[: int(0.5 * len(self.psf_sigma_eff))]
+             #     model_x = np.array(self.ls[: int(0.5 * len(self.ls))]).reshape(-1,1)
+             #     model_x2 = np.array(self.ls[int(0.5 * len(self.ls))  :]).reshape(-1,1)
+             # else:
              model_y =  self.psf_sigma_eff
              model.fit(model_x, model_y)
              model_pred = model.predict(model_x)
+             # all_model_pred = []
+             # all_model_pred.extend(model_pred)
+             # if self.name_band == 'ch_4_LONG' and PSF:
+             #     model_pred2 =  model.predict(model_x2)
+             #     all_model_pred.extend(model_pred2)
+             #     print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa', len(all_model_pred), len(self.ls))
+                 
              plt.plot(self.ls, self.psf_sigma_eff, label = 'Sigma Effective')  
              plt.plot(self.ls, model_pred, label = 'Fitted') 
              plt.title(self.name_band)
@@ -635,9 +644,7 @@ class SubCube:
         plt.imshow(self.image_before[0])
         plt.title(self.name_band+' \nData Before Conv')
         plt.show()
-        plt.imshow(self.error_data[0])
-        plt.title(self.name_band+ ' \nError Before Conv')
-        plt.show()        
+       
         for waveind in range(len(self.ls)):
                 
                 # Read sclice from cube

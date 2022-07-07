@@ -55,7 +55,7 @@ class cube_cp:
     # @pec1d: The spectrum 1D element. (Spectrum1D)        
     ###############################################################################   
         
-    def singlePointExtraction(self, aperture_type=1, convolve=False, parameters_file = True, user_ra=0, user_dec=0,\
+    def singlePointExtraction(self, aperture_type=0, convolve=False, parameters_file = True, user_ra=0, user_dec=0,\
                          user_r_ap=[0.25], point_source=True, lambda_ap = 5, apperture_correction=False,centering=False,\
                         lambda_cent=5,background=False, r_ann_in=1.23, ann_width=0.2):
         path = current_path+"\\Results\\"
