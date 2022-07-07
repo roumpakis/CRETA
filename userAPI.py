@@ -38,8 +38,12 @@ class userAPI:
                 
                 
                 cube =preprocess.getFITSData(path+files[i])
-                if cube[10] in read_only:
+                if cube[10] in read_only and PSF:
                     print('Loading and .......... ', cube[10])
+                    PSFCubes.append(cube)
+                    cubes_lambda.append(cube[4])
+                    new_files.append(files[i])
+                else:
                     PSFCubes.append(cube)
                     cubes_lambda.append(cube[4])
                     new_files.append(files[i])
