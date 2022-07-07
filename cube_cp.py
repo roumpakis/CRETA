@@ -1108,38 +1108,39 @@ class cube_cp:
         #%%
              
              print("!!!!! Stitching Process!!!!!")
-             print('all_psc_flux', np.array(PSC_flux),np.array(PSC_flux).shape)
+             #create a dictionary that contains the data cubes
              dct = {}
              for i in range(len(realData_all)):
-            
                  dct[realData_all[i].name_band] = realData_all[i]
-                 # print("EXoume kai toooooooooo ",realData_all[i].name_band)
+                 
+             #calculates the stitching ratio between all avaliable sub-bands                
              all_ratio_list = []
-                         
              rl = realData_all[0].preprocess.stichingRatioCalculation(realData_all,aperture_correction,0, True)
              all_ratio_list = rl
              data_idx = 0  
-             # print(rl)
-             for i in range(len(cubesNames)-1):         # for every band name that would exist
+  
+    
+             for i in range(len(cubesNames)-1):         # for every band name that  exists
                             print('i == ', i , "j === ",j)
                             if cubesNames[i] in dct:        # if the datacube is avaliable
                                 data = dct[cubesNames[i]]
                                     
                                 if cubesNames[i+1] in dct  :  # if we can calculate the stittching ratio
-                                    
                                     ratio = np.array(all_ratio_list)
-                                    # print(ratio)         
+
+                                    #if aperture correction option is on, we have to stitch the psc corrected spectrum
                                     if aperture_correction:
-                                        print('Stitch and aperture Correction!!!!', np.array(data.spectrum_PSF_corrected).shape )
                                         beforeStich = np.array(data.spectrum_PSF_corrected)
                                         beforeStich_error = np.array(data.error_PSF_corrected)
+                                        
+                                    #otherwise we have to stitch the original photometry spectrum    
                                     else:    
-                                        print('OPA RE MOUNIA TI GINETAI KALAAAA')
                                         beforeStich_error = np.array(data.error)[0]    
                                         beforeStich = np.array(data.corrected_spectrum)[0]
+                                        
+                                    #perform the stitching and assign it back to the cubes                                        
                                     stitched_flux = preprocess.stichSpectrum( list(np.array(all_ratio_list)), i, beforeStich) #stitch aperture
                                     data.stiched_spectrum = stitched_flux #stitched spectrum
-                                    
                                     stitched_error= preprocess.stichSpectrum( list(np.array(all_ratio_list)), i, beforeStich_error) #stitch aperture
                                     data.stiched_error = stitched_error 
                                 
@@ -1147,8 +1148,7 @@ class cube_cp:
 
                                         
                                 else: #if cube does not exists
-                                        
-                                            print("EIMASTE STO ELSE RE MNIAAAAAAAAAA")
+
                                             data.stiched_spectrum = []
                                             data.stiched_error = []
                                             data.stiched_spectrum.extend([np.NaN] * len(data.corrected_spectrum[0,:]))
@@ -1166,11 +1166,6 @@ class cube_cp:
                         all_stittched_spectrum.extend(realData_all[i].stiched_spectrum)
                         all_sttitched_error.extend((realData_all[i].stiched_error))#if aperture correction error user corrected error
 
-                        
-    
-                #Check if r_ap is out the FoV, Photometry contains NaNs
-             # if     np.isnan(np.sum(final_apers)):
-             #            print('ERROR: r_ap is larger than FoV')
     
              #attach the speuctum of last sub-channel @stitched spectrum 47
              final_apers.extend(np.array(realData_all[-1].apers)[0,:])
@@ -1190,7 +1185,7 @@ class cube_cp:
              plt.show()
 
                 
-        #%% 
+        #%%  create lists that contains  the extracted results, for all data cubes
              all_psc_flux = []
              all_psc_err = []
              all_corrected_spectrum = []
@@ -1200,13 +1195,6 @@ class cube_cp:
                 all_psc_err.extend(realData_all[qqq].error_PSF_corrected)
                 all_corrected_spectrum.extend(realData_all[qqq].corrected_spectrum[0])
                 all_error_spectrum.extend(realData_all[qqq].error[0])                
-      #%%    
-             # all_corrected_spectrum_list = []
-             # all_corrected_spectrum_error_list = []
-             # print('ALL CORRECTED SPECTRUUUUUUUUUUM ',np.array(all_sttitched_error ).shape)
-             # for qq in range(len(all_corrected_spectrum)):
-             #     all_corrected_spectrum_list.extend(all_corrected_spectrum[qq])
-             #     all_corrected_spectrum_error_list.extend(all_error_spectrum[qq])
                  
 
              time_stich =     time.time()
@@ -1224,21 +1212,15 @@ class cube_cp:
                  res_all.append(np.array(all_psc_flux))
                  res_all.append(np.array(all_psc_err))
                  res_all.append(np.array(PSC_ratio))
-                 # print(np.array(PSC_flux).shape)
-                 # res_all.append([])
-             # print("GIA TA MEGETHIIIIIIIIIIIIIIIIIIIIII " ,  len(res_all[5]), len(res_all[2]))
-                        
-                    
-             # print("ERROR SHAPE: ",res_all)
+
              all_DQ_list = []
              for i in range(len(realData_all)):
                             all_DQ_list.extend(list(np.array(realData_all[i].DQ_lista) // 513)) 
 
-
              res_all.append(np.array(all_DQ_list)[:,grid_point_idx])
     
              print("!!!!!!!!! STICHING: %s seconds ---" , (time.time() - time_stich))            
-            #%%Create DF
+            #%%Create a data frame that contains the extracted information based on the above lists
     
              time_writting_output =     time.time()
                 
@@ -1261,10 +1243,8 @@ class cube_cp:
              df = df.sort_values(by=['Wave']) 
              df = df.fillna(value=np.nan)
              
-             
-             # print("OPALAKIA LEW LA ", df['Flux_ap_st'], type(df['Flux_ap_st']))
-                 #%%
-                 #CHANGE DF dType
+
+                 #CHANGE DF data Type
              df['Wave']= df['Wave'].astype(float)
              df['Band_name']= df['Band_name'].astype(str)
              df['Flux_ap']= df['Flux_ap'].astype(float)
@@ -1278,9 +1258,8 @@ class cube_cp:
              df['Flux_err_ap_st']= df['Flux_err_ap_st'].astype(float)
              df['DQ']= df['DQ'].astype(float)
     
-                # %%
-             plt.loglog(df['Wave'],df['Flux_ap'],label = 'Flux Before PSC')
-                 
+                # %% Plot the resulting spectra
+             plt.loglog(df['Wave'],df['Flux_ap'],label = 'Flux Before PSC')  
              if aperture_correction:
                          plt.loglog(df['Wave'],np.array(all_psc_flux),label = 'Flux After PSC')
                    
@@ -1299,10 +1278,9 @@ class cube_cp:
              plt.xlabel("Wavelength (μm)")
              plt.ylabel("Flux (Jy)")
              plt.legend()
-             # plt.savefig(path+"flux_and_err_spectrum_"+str(j)+str(i)+".png")
              plt.show()
              
-                 
+ #%%                
              aperture_lamda_issue = -1
              if background:
                     
@@ -1320,8 +1298,6 @@ class cube_cp:
              pec1d = self.create1DSpectrum(df,all_dcts[grid_point_idx])
              spec1ds.append(pec1d)    
                  
-                 # user.writeResultsFile("JWST_"+str(now_str)+'_'+str(fid)+"_"+str(user_rs_arcsec[j])+'.csv',params,df,all_ratio_list,output_path,user_ra,user_dec,aperture_lamda_issue,grid_extraction, grid_NX, grid_NY, grid_distance )   
-                # 
     
              print("---Writting Output : %s seconds ---" % (time.time() - time_writting_output))        
          ts = time.time()
@@ -1333,7 +1309,6 @@ class cube_cp:
          results_path = current_path+"\\Results\\"
          output_file_name = results_path+"JWST_"+str(now_str)+"_"+str(i)+"_Grid_spec1d.fits"
                 # pec1d.write() # write the fits file
-         print(type(([all_DFs])), type(False), type(output_file_name),type(spec1ds), type(aperture_correction),  type(all_names))
          t = self.customFITSWriter(all_DFs, False, output_file_name,spec1ds, aperture_correction, all_names)  
          # self.customFITSReader(output_file_name) 
          
