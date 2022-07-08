@@ -400,7 +400,8 @@ class MIRIPreproc:
                if l_c >= ls_min[i] and l_c<= ls_max[i]:
                    res_cubes.append(i)     
                    found = True
-                   
+           if len(res_cubes) == 0:
+               res_cubes.append(0)
            c1 = SkyCoord(RA,dec, unit="deg")  # defaults to   
            the_image = images[res_cubes[0]] 
            # print('Centering with ', the_image.name_band)             
