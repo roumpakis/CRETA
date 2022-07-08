@@ -1,5 +1,5 @@
  
-def write_single_multipart(filename,aperture_correction, output_name): 
+def write_single_multipart(filename, output_name): 
 
        import numpy as np
        from astropy import units as u
@@ -13,7 +13,18 @@ def write_single_multipart(filename,aperture_correction, output_name):
        res_spec1d = []
        for i in range(len(hdu_list[1].data)):
            table = hdu_list[1].data
-           # print(table)
+           metad =  hdu_list[1].header[str(i)]
+           dict_list = metad.split(",")
+           dct={}
+           for j in range( len(dict_list)):
+                    line = dict_list[j]
+                    key = line.split(":")[0]
+                    value = line.split(":")[1]
+                    dct[key] = value
+                    # print(line, "   ")
+           print('AAAAAAAAAAAAA dct', dct) 
+           aperture_correction = dct[" 'aperture_correction'"] == ' True'
+           print('OU LALALA A',aperture_correction)
            wave = table["Wave"] * u.um 
            Flux_ap = table["Flux_ap"] * u.Jy
            Flux_err_ap = table["Flux_err_ap"] * u.Jy
@@ -38,8 +49,8 @@ def write_single_multipart(filename,aperture_correction, output_name):
            fluxes = [Flux_ap[i], Flux_ap_st[i], DQ[i]]
            errors = [Flux_err_ap[i],Flux_err_ap_st[i]]
            if aperture_correction:
-               fluxes.append(Flux_ap_PSC)
-               errors.append(Flux_Err_ap_PCS)
+               fluxes.append(Flux_ap_PSC[i])
+               errors.append(Flux_Err_ap_PCS[i])
            errors.append(len(DQ[i]) * [0])
            q = astropy.units.Quantity(np.array(fluxes), unit=u.Jy) 
            unc = StdDevUncertainty(np.array(errors))

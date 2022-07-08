@@ -8,10 +8,8 @@ Created on Mon Jul  4 11:09:13 2022
 
  
 
-filename = "C:\\Users\\roub\\Desktop\\finale\\Results\\JWST_2022-06-29_10-26-32_11_Grid_spec1d.fits"  
-
 def write_grid_multipart(filename, aperture_correction,output_name): 
-
+       import matplotlib.pyplot as plt
        import numpy as np
        from astropy import units as u
        from specutils import Spectrum1D
@@ -44,13 +42,15 @@ def write_grid_multipart(filename, aperture_correction,output_name):
                     value = line.split(":")[1]
                     dct[key] = value
                     # print(line, "   ")
-                   
+           print('')        
            dct['band_name'] = Band_Names
+
            fluxes = [Flux_ap[i], Flux_ap_st[i], DQ[i]]
+           
            errors = [Flux_err_ap[i],Flux_err_ap_st[i]]
            if aperture_correction:
-               fluxes.append(Flux_ap_PSC)
-               errors.append(Flux_Err_ap_PCS)
+               fluxes.append(Flux_ap_PSC[i])
+               errors.append(Flux_Err_ap_PCS[i])
            errors.append(len(DQ[i]) * [0])
            q = astropy.units.Quantity(np.array(fluxes), unit=u.Jy) 
            unc = StdDevUncertainty(np.array(errors))
