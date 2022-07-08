@@ -47,12 +47,9 @@ c.gridExtraction()
 ##### 3. Parameterization of both spectrum extraction methods can be applied.
 
 ***Single Extraction parameters***  <br/>
-```aperture_type:```  Aperture type: 0 for Circular, 1 for Rectangular.<br/>
-```convolve:``` Fix resolution option.<br/>
-```parameters_file:``` Use the parameters file or the command execution option.<br/>
+```user_r_ap:``` user defined radius in arcsec.<br/>
 ```user_ra:``` Center RA in degrees.<br/>
 ```user_dec:``` Center Dec in degrees.<br/>
-```user_r_ap:``` user defined radius in arcsec.<br/>
 ```point_source:``` Point or extended source extraction option.<br/>
 ```lambda_ap:``` Wavelength that aperture is defined, only for point source.<br/>
 ```apperture_correction:``` Apperture correction option.<br/>
@@ -61,6 +58,9 @@ c.gridExtraction()
 ```background:``` Background subtraction option.<br/>
 ```r_ann_in:``` Inner annulus radius.<br/>
 ```width:``` Width of annulus.<br/>
+```aperture_type:```  Aperture type: 0 for Circular, 1 for Rectangular.<br/>
+```convolve:``` Fix resolution option.<br/>
+```parameters_file:``` Use the parameters file or the command execution option.<br/>
 
 ###### 3.1 Single Point Extraction parameters file
 For single point extraction parametrization can be applied by changing the values of the parameters that ```params.txt``` file contains. 
