@@ -76,22 +76,22 @@ c.singlePointExtraction(user_ra=0.25, user_dec=0.25, centering= True,lambda_cent
 ---
 
 ***Grid Extraction parameters*** <br/>
-```convolve:``` Fix resolution option.<br/>
-```parameters_file:``` Use the parameters file or the command execution option.<br/>
-```user_ra:``` Center RA in degrees.<br/>
-```user_dec:``` Center Dec in degrees.<br/>
-```user_r_ap:``` user defined radius in arcsec.<br/>
-```point_source:``` Point or extended source extraction option.<br/>
-```lambda_ap:``` Wavelength that aperture is defined, only for point source.<br/>
-```apperture_correction:``` Apperture correction option.<br/>
-```centering:``` Center user input with a 11x11 box.<br/>
-```lambda_cnt:``` Wavelength of centering.<br/>
 ```first_subband:``` Sub-band name with the shortest desired wavelength.<br/>
 ```last_subband:``` Sub-band name with the longest desired wavelength.<br/>
 ```x_steps:``` Grid points in X coordinate. Use -1 value for default option.<br/>
 ```y_steps:``` Grid points in Y coordinate. Use -1 value for default option. <br/>
 ```r:``` Aperture radius. Use -1 value for defalut option which is the half of the distance between two points.<br/>
 ```distance:``` Distance between two grid points. Use -1 for default option, which is the pixel scale of the sub-band at the longest wavelength. <br/>
+```user_ra:``` Center RA in degrees.<br/>
+```user_dec:``` Center Dec in degrees.<br/>
+```user_defined_center_of_grid``` use user defined center.<br/>
+```convolve:``` Fix resolution option.<br/>
+```parameters_file:``` Use the parameters file or the command execution option.<br/>
+```point_source:``` Point or extended source extraction option.<br/>
+```lambda_ap:``` Wavelength that aperture is defined, only for point source.<br/>
+```apperture_correction:``` Apperture correction option.<br/>
+```centering:``` Center user input with a 11x11 box.<br/>
+```lambda_cnt:``` Wavelength of centering.<br/>
 ```user_centroid:``` Use user defined center or not.<br/>
 
 ###### 3.3 Grid Extraction parameters file
