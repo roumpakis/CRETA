@@ -38,7 +38,7 @@ class userAPI:
                 
                 
                 cube =preprocess.getFITSData(path+files[i])
-                if cube[10] in read_only and PSF:
+                if cube[10] in read_only:
                     print('Loading and .......... ', cube[10])
                     PSFCubes.append(cube)
                     cubes_lambda.append(cube[4])
@@ -48,7 +48,7 @@ class userAPI:
                     cubes_lambda.append(cube[4])
                     new_files.append(files[i])
  
-        [PSFs , files ]= self.sortCubesByLambda(PSFCubes,cubes_lambda,new_files)
+        [PSFs , new_files ]= self.sortCubesByLambda(PSFCubes,cubes_lambda,new_files)
         
         dist = np.abs(lambda_ap - PSFs[0][4])
         base_pixel_scale = PSFs[0][6] #the first cube pixel scale / shortest lambda        
@@ -79,9 +79,9 @@ class userAPI:
         res = []
         for i in range(len(PSFs)):
 
-            res.append( SubCube(path,files[i],base_r,base_l,PSFs[i][6],base_pixel_scale,point_source,  PSF, centering, background,r_in,width,aperture_type, convolve))
+            res.append( SubCube(path,new_files[i],base_r,base_l,PSFs[i][6],base_pixel_scale,point_source,  PSF, centering, background,r_in,width,aperture_type, convolve))
     
-        return [res, pixel_scale, base_l_list,[],cube[11], files]
+        return [res, pixel_scale, base_l_list,[],cube[11], new_files]
     #%%    
     def sortCubesByLambda(self,cubes,lambdas, files):
          lambdas_cp = lambdas.copy()

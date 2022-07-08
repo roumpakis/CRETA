@@ -56,13 +56,13 @@ class cube_cp:
     ###############################################################################   
         
     def singlePointExtraction(self, aperture_type=0, convolve=False, parameters_file = True, user_ra=0, user_dec=0,\
-                         user_r_ap=[0.25], point_source=True, lambda_ap = 5, apperture_correction=False,centering=False,\
+                         user_r_ap=[0.25], point_source=True, lambda_ap = 5, aperture_correction=True,centering=False,\
                         lambda_cent=5,background=False, r_ann_in=1.23, ann_width=0.2):
         path = current_path+"\\Results\\"
         filename = current_path+'\\params.txt'
         import time 
         [df_res,data,meta] = self.CRETA(filename,"",aperture_type,[],0,convolve,  \
-                            user_ra, user_dec,user_r_ap, point_source, lambda_ap, apperture_correction,centering, \
+                            user_ra, user_dec,user_r_ap, point_source, lambda_ap, aperture_correction,centering, \
                                 lambda_cent,background, r_ann_in, ann_width,parameters_file)
         
         pec1d = self.create1DSpectrum(df_res,meta)
@@ -81,7 +81,7 @@ class cube_cp:
             namesList[i] = str(namesList[i])
         plt.plot(namesList)
         plt.show()
-        t = self.customFITSWriter([df_res], False, outname,[pec1d], False,  namesList)  
+        t = self.customFITSWriter([df_res], False, outname,[pec1d], aperture_correction,  namesList)  
         
         self.plotStoreApertures(data, background)
         print('>> Single Point extraction execution time: ' + str(time.time() - ts ))
@@ -670,12 +670,12 @@ class cube_cp:
            dct[str(i)] = meta_str
            
 
-       print(len(band_names), len(waves[0]), len(band_names), len(all_data) )    
-       plt.plot(band_names)
-       plt.title('ta onomata')
-       plt.show()
-       print( type(df_res), type(PSC), type(filename), type(spec1ds), type(aperture_correction), type(band_names))
-       print(dct)
+       # print(len(band_names), len(waves[0]), len(band_names), len(all_data) )    
+       # plt.plot(band_names)
+       # plt.title('ta onomata')
+       # plt.show()
+       # print( type(df_res), type(PSC), type(filename), type(spec1ds), type(aperture_correction), type(band_names))
+       # print(dct)
        tab = Table(all_data, names = names, meta = dct)
        # import pdb
        # pdb.set_trace()
@@ -792,7 +792,7 @@ class cube_cp:
                     new_files.append(files[i])
                     # dct_cube_file[cube[10]] = files[i]
                     # dct_cube_lambda[cube[10]] = cubes_lambda[i]
-         files = new_files   
+         files = new_files.copy()  
          #%% Exclude the sub bands that are not on the 
          ii = 0
          print("BEFORE LEN: ", len(cubes)) 
@@ -833,7 +833,7 @@ class cube_cp:
          # files = files_new
          
          #%%   
-         [cubes_sorted ,asx]= user.sortCubesByLambda(cubes,cubes_lambda,files)   
+         [cubes_sorted ,asx]= user.sortCubesByLambda(cubes,cubes_lambda,new_files)   
          for i in cubes:
              print('a onomata ', i[10])
          for i in files:
@@ -903,17 +903,17 @@ class cube_cp:
             for i in PSF_files : #exclude hidden files from mac
                 if i.startswith('.'):
                     PSF_files .remove(i)    
-            [PSF_all, pxs, bsl,base_r_list,ofn, zzz] = user.getSubCubes(PSF_path,r,point_source,  True, centering, False,0,0,lambda_ap,1, read_only, PSF_files, convolve)         
+            [PSF_all, pxs, bsl,base_r_list,ofn, zzz] = user.getSubCubes(PSF_path,r,point_source,  True, centering, False,0,0,lambda_ap,1, read_only, new_files, convolve)         
             
         #%%Load Real Data
          print('\nLoading Data..')  
 
-         [realData_all, pixel_scale, base_l_list,base_r_list,output_file_name, read_only_data] = user.getSubCubes(path,r,point_source,  False, False, False,0.0,0.0,l_ap,1, read_only, files, convolve)
+         [realData_all, pixel_scale, base_l_list,base_r_list,output_file_name, read_only_data] = user.getSubCubes(path,r,point_source,  False, False, False,0.0,0.0,l_ap,1, read_only, new_files, convolve)
          for i in range(len(realData_all)):
               realData_all[i].rs = [realData_all[i].rs] 
               if convolve:
                   realData_all[i].fixConvolved(PSF_all[-1].psf_sigma_eff[-1],PSF_all[i].psf_sigma_eff)
-              print(PSF_all[i].name_band)    
+              # print(PSF_all[i].name_band)    
          print("Ta real data einaiiiii :", len(realData_all), " kai points: ", x_steps*y_steps)
          
 
