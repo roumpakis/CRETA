@@ -735,7 +735,7 @@ class cube_cp:
     ########### --> Return cube_data  ############################
     # @res_spec1d: A list of data sub-channels. (list of SubCube)        
     ###############################################################################     
-    def gridExtraction(self, point_source = False,lambda_ap=0,  centering = False, lambda_cnt = 0, parameters_file = False, plots=False, first_subband = 'G140H', last_subband = 'ch_4_LONG', x_steps = -1, y_steps = -1, r = -1, distance = -1, user_ra = 0, user_dec = 0,  user_centroid=False, aperture_correction = False, convolve=False):
+    def gridExtraction(self, point_source = False,lambda_ap=5,  centering = False, lambda_cnt = 5, parameters_file = False, plots=False, first_subband = 'G140H', last_subband = 'ch_4_LONG', x_steps = -1, y_steps = -1, r = -1, distance = -1, user_ra = 0, user_dec = 0,  user_centroid=False, aperture_correction = False, convolve=False):
         
         #%% create the read only list 
          cubesNames = [ 'G140H', 'ch_1_SHORT','ch_1_MEDIUM', 'ch_1_LONG' ,\
@@ -906,7 +906,8 @@ class cube_cp:
             PSF_files = os.listdir(PSF_path)
             for i in PSF_files : #exclude hidden files from mac
                 if i.startswith('.'):
-                    PSF_files .remove(i)    
+                    PSF_files .remove(i)  
+            print(lambda_ap)        
             [PSF_all, pxs, bsl,base_r_list,ofn, zzz] = user.getSubCubes(PSF_path,r,point_source,  True, centering, False,0,0,lambda_ap,1, read_only, new_files, convolve)         
             
         #%%Load Real Data
