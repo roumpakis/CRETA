@@ -416,6 +416,7 @@ class SubCube:
             patches.append(ann_patches[0])
         handles = ap_patches
         # plt.ylim([0,self.NY])
+        plt.ion() 
         plt.legend(handles=handles)
         plt.title(self.name_band)
         plt.savefig(path+self.name_band+".png")
@@ -484,7 +485,7 @@ class SubCube:
         #                             img[j,k] = img[j,k] + self.image_before[i,j,k]
             
         img = cubes.image_before[0,:,:]
-
+        plt.ion() 
         for i in range(1,len(cubes.image_before)):
                     img = img + cubes.image_before[i,:,:]
         
@@ -503,10 +504,12 @@ class SubCube:
         
     def plotCenters(self):
         from matplotlib.patches import Rectangle
+        plt.ion() 
         plt.imshow(self.image_before[0,:,:])
         plt.plot(self.xys[0][0],self.xys[0][1], 'br')
         plt.show()    
         last = len(self.xys)-1
+        plt.ion() 
         plt.imshow(self.image_before[last,:,:])
         plt.plot(self.xys[last][0],self.xys[last][1], 'bo')
         plt.show()         
@@ -593,7 +596,7 @@ class SubCube:
              #     model_pred2 =  model.predict(model_x2)
              #     all_model_pred.extend(model_pred2)
              #     print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa', len(all_model_pred), len(self.ls))
-                 
+             plt.ion()    
              plt.plot(self.ls, self.psf_sigma_eff, label = 'Sigma Effective')  
              plt.plot(self.ls, model_pred, label = 'Fitted') 
              plt.title(self.name_band)
@@ -641,6 +644,7 @@ class SubCube:
         print('>> Fix Data With conv')            
         this_channel_pixel_scale = self.pixel_scale # placeholder
         nwaveinds, nys, nxs = self.image_before.shape
+        plt.ion() 
         plt.imshow(self.image_before[0])
         plt.title(self.name_band+' \nData Before Conv')
         plt.show()
@@ -679,9 +683,11 @@ class SubCube:
                 # print(channame+bandname, psf_sigma_eff[waveind], np.sqrt(conv_gauss2d_fit.pars[3] * conv_gauss2d_fit.pars[4]) * this_channel_pixel_scale, psf_sigma_eff[index_of_the_last_channel_last_wave]) # all in arcsec
                 
                 # pdb.set_trace()
+        plt.ion()         
         plt.imshow(self.image_before[0])
         plt.title(self.name_band+' \nData After Conv')
         plt.show()
+        plt.ion() 
         plt.imshow(self.error_data[0])
         plt.title(self.name_band+ ' \nError After Conv')
         plt.show()       

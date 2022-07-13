@@ -7,6 +7,7 @@ Created on Tue Jun  1 17:02:01 2021
 """
 import numpy as np
 import matplotlib.pyplot as plt
+plt.ion() 
 from MIRIPreproc import MIRIPreproc
 from userAPI import userAPI
 import pandas as pd
@@ -79,8 +80,9 @@ class cube_cp:
         namesList = (df_res['Band_name'].values.tolist())  
         for i in range(len(namesList)):
             namesList[i] = str(namesList[i])
+        plt.ion() 
         plt.plot(namesList)
-        plt.show()
+        plt.show(block=False)
         t = self.customFITSWriter([df_res], False, outname,[pec1d], aperture_correction,  namesList)  
         
         self.plotStoreApertures(data, background)
@@ -1179,7 +1181,8 @@ class cube_cp:
                  all_stittched_spectrum.extend(np.array(realData_all[-1].corrected_spectrum)[0])  
                  all_sttitched_error.extend(np.array(realData_all[-1].error)[0])                       
              final_error= []   
-             PSF_ratio_all = []    
+             PSF_ratio_all = [] 
+             plt.ion() 
              plt.plot(all_stittched_spectrum)
              plt.plot(all_sttitched_error)
              plt.show()
@@ -1259,6 +1262,7 @@ class cube_cp:
              df['DQ']= df['DQ'].astype(float)
     
                 # %% Plot the resulting spectra
+             plt.ion() 
              plt.loglog(df['Wave'],df['Flux_ap'],label = 'Flux Before PSC')  
              if aperture_correction:
                          plt.loglog(df['Wave'],np.array(all_psc_flux),label = 'Flux After PSC')
@@ -1269,7 +1273,7 @@ class cube_cp:
              plt.ylabel("Flux (Jy)")
              plt.legend()
              plt.show()
-    
+             plt.ion() 
              plt.loglog(df['Wave'], df['Flux_err_ap'], '--' ,markersize=1,label = 'Flux Error')
              if aperture_correction:
                             plt.loglog(df['Wave'],df['Flux_Err_ap_PCS'], '--' ,markersize=1,label = 'Flux Error PSC')
