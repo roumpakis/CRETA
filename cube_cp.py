@@ -227,7 +227,7 @@ class cube_cp:
         meta_dict = {"centroid":c.to_string('hmsdms'),"exrtaction_type":aper_type , \
                      "aperture_correction":aperture_correction, "background_subtraction":background, \
                      "Background Inner Radious":r_ann_in, "Annulus Width":ann_width,   
-                     "Centering":centering, "Centering lambda":l_c                         
+                     "Centering":centering                        
                       }
         #%% Load PSF: PSF_all is a list with all PSF sub-cubes sorted by wavelength
   #%%Load Real Data
@@ -249,10 +249,12 @@ class cube_cp:
         #%% Centering
         time_centering = time.time()
         if centering:
-            new_sky =  preprocess.lambdaBasedCentering(PSF_all, l_c, user_ra, user_dec)
+            new_sky,l_c=  preprocess.lambdaBasedCentering(PSF_all, l_c, user_ra, user_dec)
+            meta_dict["Centering lambda"] = l_c
+            params[7] = str(l_c)
             print('New Sky is: ', new_sky)
-            user_ra = new_sky[0][0].ra
-            user_dec = new_sky[0][0].dec
+            user_ra = new_sky[0].ra
+            user_dec = new_sky[0].dec
         else:
             from astropy.coordinates import SkyCoord
             c = SkyCoord(ra=user_ra*u.degree, dec=user_dec*u.degree, frame='icrs')    
@@ -928,9 +930,9 @@ class cube_cp:
               print('user centroid')
               if centering:
                 print('centering')
-                new_sky =  preprocess.lambdaBasedCentering(realData_all,lambda_cnt, user_ra, user_dec) #center by labda, using the 11x11 box
-                ra = new_sky[0][0].ra
-                dec = new_sky[0][0].dec  
+                new_sky,lambda_cnt =  preprocess.lambdaBasedCentering(realData_all,lambda_cnt, user_ra, user_dec) #center by labda, using the 11x11 box
+                ra = new_sky[0].ra
+                dec = new_sky[0].dec  
                 print('Center coords after centering: ra = ', ra, ' dec = ',dec)
               else:   
                  ra = user_ra

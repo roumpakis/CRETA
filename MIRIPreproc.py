@@ -440,8 +440,9 @@ class MIRIPreproc:
            # plt.imshow(plane)
            jj, kk= self.userCentroid(plane,x,y)
            # print('NEw Center in pixels: ', jj, '  ',kk)
+           print("Telika to ekana sto ", the_image.ls[z])
            sky = the_image.wcs.pixel_to_world(jj,kk,l_c)
-           return sky, res_cubes[0]
+           return sky,  the_image.ls[z]
 
   #%% Get lambdas overlappinf correction 
     def getLambdasOverlappingCorrection(self, ch1_data,ch1_ls,ch2_data,ch2_ls,delta1,delta2):
