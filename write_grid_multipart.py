@@ -64,7 +64,8 @@ def write_grid_multipart(filename, aperture_correction,output_name):
             yy = int(w[13])
             dct[xx] = {}
            
-       import matplotlib.pyplot as plt    
+       import matplotlib.pyplot as plt  
+       plt.ion() 
             
        for i in range(len(res)):
             w = list(res[i].meta.values())

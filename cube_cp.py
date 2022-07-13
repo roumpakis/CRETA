@@ -62,31 +62,29 @@ class cube_cp:
         path = current_path+"\\Results\\"
         filename = current_path+'\\params.txt'
         import time 
-        [df_res,data,meta] = self.CRETA(filename,"",aperture_type,[],0,convolve,  \
+        [df_res,data,meta,filenames] = self.CRETA(filename,"",aperture_type,[],0,convolve,  \
                             user_ra, user_dec,user_r_ap, point_source, lambda_ap, aperture_correction,centering, \
                                 lambda_cent,background, r_ann_in, ann_width,parameters_file)
-        
-        pec1d = self.create1DSpectrum(df_res,meta)
-        
-        ts = time.time()
-        now = datetime.datetime.now()
-        now = now.strftime("%Y-%m-%d %H:%M:%S")
-        now_str = str(now)
-        now_str = now_str.replace(':', '-')
-        now_str = now_str.replace(' ', '_')
-        outname = path+"JWST_"+str(now_str)+"singe_extraction_spec1d.fits"
-
-
-        namesList = (df_res['Band_name'].values.tolist())  
-        for i in range(len(namesList)):
-            namesList[i] = str(namesList[i])
-        plt.ion() 
-        plt.plot(namesList)
-        plt.show(block=False)
-        t = self.customFITSWriter([df_res], False, outname,[pec1d], aperture_correction,  namesList)  
-        
-        self.plotStoreApertures(data, background)
-        print('>> Single Point extraction execution time: ' + str(time.time() - ts ))
+        for qqq in range(len(df_res)):
+            pec1d = self.create1DSpectrum(df_res[qqq],meta[qqq])
+            
+            ts = time.time()
+            now = datetime.datetime.now()
+            now = now.strftime("%Y-%m-%d %H:%M:%S")
+            now_str = str(now)
+            now_str = now_str.replace(':', '-')
+            now_str = now_str.replace(' ', '_')
+            outname = path+filenames[qqq]+".fits"
+    
+    
+            namesList = (df_res[qqq]['Band_name'].values.tolist())  
+            for i in range(len(namesList)):
+                namesList[i] = str(namesList[i])
+            print('FILENAMES_ALL !!!', filenames[qqq], len(filenames))    
+            t = self.customFITSWriter([df_res[qqq]], False, outname,[pec1d], aperture_correction,  namesList)  
+            
+            self.plotStoreApertures(data, background)
+            print('>> Single Point extraction execution time: ' + str(time.time() - ts ))
         return [df_res,data, meta,pec1d]
 #%%
     
@@ -367,7 +365,9 @@ class cube_cp:
             rl = realData_all[0].preprocess.stichingRatioCalculation(realData_all,aperture_correction,qq, False)
             all_ratio_list.append(rl)
         data_idx = 0  
-       
+        DFS_ALLS = []
+        META_ALLS = []
+        FILENAMES_ALLS = []
         for j in range(len(PSF_all[0].rs[0])):          #for every radius
              print("... for radius ", np.array(PSF_all[0].rs)[0,j])
              for i in range(len(cubesNames)-1):         # for every band name that would exist
@@ -553,12 +553,14 @@ class cube_cp:
              now_str = now_str.replace(':', '-')
              now_str = now_str.replace(' ', '_')    
              
-             
-             user.writeResultsFile("JWST_"+str(now_str)+'_'+str(fid)+"_"+str(user_rs_arcsec[j])+'.csv',params,df,all_ratio_list,output_path,user_ra,user_dec,aperture_lamda_issue,grid_extraction, 0, 0, 0, PSF_path, data_path )   
+             file_naming = "JWST_"+str(now_str)+'_'+str(user_rs_arcsec[j])+'as'
+             FILENAMES_ALLS.append(file_naming)
+             user.writeResultsFile(file_naming+'.csv',params,df,all_ratio_list,output_path,user_ra,user_dec,aperture_lamda_issue,grid_extraction, 0, 0, 0, PSF_path, data_path )   
             
-
+             DFS_ALLS.append(df)
+             META_ALLS.append(meta_dict)
              print("---Writting Output : %s seconds ---" % (time.time() - time_writting_output))
-        return [df,realData_all,meta_dict]
+        return [DFS_ALLS,realData_all,META_ALLS,FILENAMES_ALLS]
         print("---Execution Time: %s seconds ---" % (time.time() - start_time))
         
         

@@ -79,7 +79,7 @@ class userAPI:
         res = []
         for i in range(len(PSFs)):
 
-            res.append( SubCube(path,new_files[i],base_r,base_l,PSFs[i][6],base_pixel_scale,point_source,  PSF, centering, background,r_in,width,aperture_type, convolve))
+            res.append( SubCube(path,new_files[i],base_r,lambda_ap,PSFs[i][6],base_pixel_scale,point_source,  PSF, centering, background,r_in,width,aperture_type, convolve))
     
         return [res, pixel_scale, base_l_list,[],cube[11], new_files]
     #%%    

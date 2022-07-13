@@ -63,6 +63,7 @@ def write_single_multipart(filename, output_name):
 
                
            import matplotlib.pyplot as plt    
+           plt.ion() 
          
            fluxes = res[0].flux[0]
            fluxes_stitched =res[0].flux[1]
@@ -157,7 +158,7 @@ def write_single_multipart(filename, output_name):
            else:
                         hdulist = fits.HDUList([hdu,  h_flux,h_err, h_flux_stitched, h_err_stitched, h_dq,h_wave, h_names]) 
                 
-           hdulist.writeto("qa.fits", overwrite=True)
+           hdulist.writeto(output_name, overwrite=True)
             
             #%% Read fits multicard
             # lll = fits.open("C:\\Users\\roub\\Desktop\\qa.fits")
