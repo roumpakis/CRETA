@@ -743,7 +743,8 @@ class MIRIPreproc:
             plt.gca().add_patch(Rectangle([xx,yy],2*r_pix,2*r_pix,linewidth=1,edgecolor='r',facecolor='none'))
             plt.plot(pixels_list[i][0],pixels_list[i][1], 'bo', markersize=3)
             plt.title(cube.name_band)
-        plt.legend()    
+        plt.legend()
+        plt.savefig(current_path+'//Results//'+cube.name_band+'.png')
         plt.show()          
          
         return sky_list,pixels_list,names            

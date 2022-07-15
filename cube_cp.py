@@ -24,6 +24,7 @@ start_time = time.time()
 from astropy.table import Table
 preprocess = MIRIPreproc ()
 user = userAPI()
+import shutil
 class cube_cp:
 
 
@@ -76,7 +77,8 @@ class cube_cp:
             now_str = now_str.replace(' ', '_')
             outname = path+filenames[qqq]+".fits"
     
-    
+            params_name = path+'sp_params_'+filenames[qqq]+'.txt'
+            shutil.copyfile(filename, params_name)
             namesList = (df_res[qqq]['Band_name'].values.tolist())  
             for i in range(len(namesList)):
                 namesList[i] = str(namesList[i])
@@ -1267,27 +1269,27 @@ class cube_cp:
              df['DQ']= df['DQ'].astype(float)
     
                 # %% Plot the resulting spectra
-             plt.ion() 
-             plt.loglog(df['Wave'],df['Flux_ap'],label = 'Flux Before PSC')  
-             if aperture_correction:
-                         plt.loglog(df['Wave'],np.array(all_psc_flux),label = 'Flux After PSC')
+             # plt.ion() 
+             # plt.loglog(df['Wave'],df['Flux_ap'],label = 'Flux Before PSC')  
+             # if aperture_correction:
+             #             plt.loglog(df['Wave'],np.array(all_psc_flux),label = 'Flux After PSC')
                    
-             plt.loglog(df['Wave'],df['Flux_ap_st'],label = 'Flux Stiched')
+             # plt.loglog(df['Wave'],df['Flux_ap_st'],label = 'Flux Stiched')
                  
-             plt.xlabel("Wavelength (μm)")
-             plt.ylabel("Flux (Jy)")
-             plt.legend()
-             plt.show()
-             plt.ion() 
-             plt.loglog(df['Wave'], df['Flux_err_ap'], '--' ,markersize=1,label = 'Flux Error')
-             if aperture_correction:
-                            plt.loglog(df['Wave'],df['Flux_Err_ap_PCS'], '--' ,markersize=1,label = 'Flux Error PSC')
-             plt.loglog(df['Wave'],df['Flux_err_ap_st'], '--' ,markersize=1,label = 'Error Stiched')
+             # plt.xlabel("Wavelength (μm)")
+             # plt.ylabel("Flux (Jy)")
+             # plt.legend()
+             # plt.show()
+             # plt.ion() 
+             # plt.loglog(df['Wave'], df['Flux_err_ap'], '--' ,markersize=1,label = 'Flux Error')
+             # if aperture_correction:
+             #                plt.loglog(df['Wave'],df['Flux_Err_ap_PCS'], '--' ,markersize=1,label = 'Flux Error PSC')
+             # plt.loglog(df['Wave'],df['Flux_err_ap_st'], '--' ,markersize=1,label = 'Error Stiched')
                  
-             plt.xlabel("Wavelength (μm)")
-             plt.ylabel("Flux (Jy)")
-             plt.legend()
-             plt.show()
+             # plt.xlabel("Wavelength (μm)")
+             # plt.ylabel("Flux (Jy)")
+             # plt.legend()
+             # plt.show()
              
  #%%                
              aperture_lamda_issue = -1
@@ -1320,7 +1322,10 @@ class cube_cp:
                 # pec1d.write() # write the fits file
          t = self.customFITSWriter(all_DFs, False, output_file_name,spec1ds, aperture_correction, all_names)  
          # self.customFITSReader(output_file_name) 
-         
+         if parameters_file:
+
+            params_name_grid =  results_path+"grid_params_JWST_"+str(now_str)+"_"+str(i)+"_Grid_.txt"
+            shutil.copyfile("grid_params.txt",params_name_grid )
          return all_DFs, res_all, realData_all,all_dcts
              
          
