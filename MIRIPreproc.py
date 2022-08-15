@@ -153,9 +153,11 @@ class MIRIPreproc:
         err_data = ERR.data
 
         CRPIX3 = hdu_list['SCI'].header['CRPIX3'] -  1
-
+            
+        CRVAL1 = hdu_list['SCI'].header['CRVAL1']
+        CRVAL2 = hdu_list['SCI'].header['CRVAL2']
         CRVAL3 = hdu_list['SCI'].header['CRVAL3']
-
+        
         CDELT1 = hdu_list['SCI'].header['CDELT1'] * 3600 #arcsec / pixel
 
         CDELT2 = hdu_list['SCI'].header['CDELT2'] * 3600 #arcsec/ pixel
@@ -249,6 +251,9 @@ class MIRIPreproc:
         res.append(output_file_name)
 
         res.append(DQ)
+        
+        res.append(CRVAL1)
+        res.append(CRVAL2)
 
         return res
 

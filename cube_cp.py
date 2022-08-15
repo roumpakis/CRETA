@@ -12,7 +12,7 @@ Created on Tue Jun  1 17:02:01 2021
 
 """
 
-
+from astropy.coordinates import SkyCoord  
 import numpy as np
 
 import matplotlib.pyplot as plt
@@ -557,23 +557,30 @@ class cube_cp:
 
                 # print(filename)
 
-                if   os.path.isfile(filename):
+                # if   os.path.isfile(filename):
 
-                    print('Just load Centers')
+                print('Just load Centers')
 
-                    PSF_all[i].xys = user.readCubeCentroids(filename) #read PSF centroids from file
+                    # PSF_all[i].xys = user.readCubeCentroids(filename) #read PSF centroids from file
+                PSF_all[i].xys = [] ### SR
+                        
+                for www in range(len(PSF_all[i].ls)):
+                            # PSF_all[i].xys.append([PSF_all[i].CRVAL2,PSF_all[i].CRVAL1]) 
+                              c1 = SkyCoord(PSF_all[i].CRVAL1,PSF_all[i].CRVAL2, unit="deg")  #### TDS
+                              xpix,ypix,zpix = PSF_all[i].wcs.world_to_pixel(c1, PSF_all[i].ls[www]*u.um)   #### TDS
+                              PSF_all[i].xys.append([xpix,ypix])
 
-                else:
+                # else:
 
                     
 
                     #PSF_all[i].doCenters(user_ra,user_dec,PSF) #centering PSF cube 
 
-                    PSF_all[i].doCenters(0.,0.,PSF) #centering PSF cube  ######### TDS
+                    # PSF_all[i].doCenters(0.,0.,PSF) #centering PSF cube  ######### TDS
 
-                    user.writeCubeCentroids(PSF_all[i],i)  #PSF centroids in file
+                    # user.writeCubeCentroids(PSF_all[i],i)  #PSF centroids in file
 
-
+               
 
                 #INF FLUX
 
@@ -615,6 +622,7 @@ class cube_cp:
 
                 PSF_all[i].doPhotometry(PSF,background) 
 
+
                 PSF_all[i].doFluxUnitCorrection()
 
         print("!!!!! PSF Photometry': %s seconds !!!!!" % (time.time() - time_PSF_photometry_all))      
@@ -651,7 +659,7 @@ class cube_cp:
 
             for i in range(len(PSF_all)):
 
-                realData_all[i].PSFCorrection(PSF_all[i].PSF_correction)
+                realData_all[i].PSFCorrection(PSF_all[i].PSF_correction, PSF_all[i].ls)
 
         
 
@@ -1873,7 +1881,7 @@ class cube_cp:
 
             print(lambda_ap)        
 
-            [PSF_all, pxs, bsl,base_r_list,ofn, zzz] = user.getSubCubes(PSF_path,r,point_source,  True, centering, False,0,0,lambda_ap,1, read_only, new_files, convolve)         
+            [PSF_all, pxs, bsl,base_r_list,ofn, zzz] = user.getSubCubes(PSF_path,r,point_source,  True, centering, False,0,0,lambda_ap,1, read_only, PSF_files, convolve)         
 
             
 
@@ -1995,26 +2003,35 @@ class cube_cp:
 
                     print(filename)
 
-                    if   os.path.isfile(filename):
+                    # if   os.path.isfile(filename):
 
-                        print('Just load Centers')
+                        # print('Just load Centers')
 
-                        PSF_all[i].xys = user.readCubeCentroids(filename) #read PSF centroids from file
-
-                    else:
-
-                        
-
-                        #PSF_all[i].doCenters(user_ra,user_dec,True) #centering PSF cube 
-
-                        PSF_all[i].doCenters(0.,0.,True) #centering PSF cube  ######### TDS
-
-                        user.writeCubeCentroids(PSF_all[i],i)  #PSF centroids in file
+                        # PSF_all[i].xys = user.readCubeCentroids(filename) #read PSF centroids from file
+                    PSF_all[i].xys = []  ### SR
+                    from astropy.coordinates import SkyCoord  
+                    for www in range(len(PSF_all[i].ls)):
+                            # PSF_all[i].xys.append([PSF_all[i].CRVAL2,PSF_all[i].CRVAL1]) 
+                              c1 = SkyCoord(PSF_all[i].CRVAL1,PSF_all[i].CRVAL2, unit="deg")  #### TDS
+                              xpix,ypix,zpix = PSF_all[i].wcs.world_to_pixel(c1, PSF_all[i].ls[www]*u.um)   #### TDS
+                              PSF_all[i].xys.append([xpix,ypix])
+                    # else:
 
                         
 
-                        
+                    #     #PSF_all[i].doCenters(user_ra,user_dec,True) #centering PSF cube 
 
+                    #     # PSF_all[i].doCenters(0.,0.,True) #centering PSF cube  ######### TDS
+                    #     PSF_all[i].xys = []
+                    #     for www in range(len(PSF_all[i].ls)):
+                    #         # PSF_all[i].xys.append([PSF_all[i].CRVAL2,PSF_all[i].CRVAL1]) 
+                    #           c1 = SkyCoord(PSF_all[i].CRVAL1,PSF_all[i].CRVAL2, unit="deg")  #### TDS
+                    #           xpix,ypix,zpix = PSF_all[i].wcs.world_to_pixel(c1, PSF_all[i].ls[www]*u.um)   #### TDS
+                    #           PSF_all[i].xys.append([xpix,ypix])
+                    #     # user.writeCubeCentroids(PSF_all[i],i)  #PSF centroids in file                     
+
+                        
+ 
                       
 
     
@@ -2032,7 +2049,12 @@ class cube_cp:
                         user.writePSFInfFlux(PSF_all)
 
     
-
+             for i in range(len(PSF_all)):                
+                 sky_pqd = PSF_all[i].wcs.pixel_to_world(PSF_all[i].xys[0][0], PSF_all[i].xys[0][1], ls[-1]*u.um)
+                 ra_pqd  = sky_pqd [0].ra
+                 dec_pqd  = sky_pqd [0].dec
+                 print(PSF_all[i].xys[0][0],PSF_all[i].xys[0][0],sky_pqd)
+                 preprocess.plotGridSubchanel( ra_pqd, dec_pqd, distance, x_steps, y_steps, PSF_all[i], r)
              time_PSF_photometry_all = time.time()   
 
              #Center grid to PSF
@@ -2131,7 +2153,7 @@ class cube_cp:
 
          aper_type = "extended_source"
 
-         from astropy.coordinates import SkyCoord  
+
 
          # print(ra, dec)
 
@@ -2250,7 +2272,8 @@ class cube_cp:
                      for j in range(len(PSC[i])):
 
                          # print(PSF_all[j].name_band, realData_all[j].name_band)
-
+                         # print('PSC DHAPE',np.array(PSC[0]).shape)
+                         # print('PSC DHAPE',np.array(realData_all[i].corrected_spectrum).shape)
                          realData_all[i].spectrum_PSF_corrected.append(PSC[i][j] * np.array(realData_all[i].corrected_spectrum[0,j]))
 
                          realData_all[i].error_PSF_corrected.append(PSC[i][j] * np.array(realData_all[i].error[0,j]))
@@ -2721,20 +2744,24 @@ class cube_cp:
 
          # self.customFITSReader(output_file_name) 
 
-         if parameters_file:
+         if parameters_file: #### SR
 
-            #params_name_grid =  results_path+"JWST_"+str(now_str)+"_"+str(i)+"_Grid_params_file.txt"
-
-            #shutil.copyfile("grid_params.txt",params_name_grid)
 
             params_name_grid =  results_path+'last_result_'+str(i)+"_Grid_params_file.txt"
-
-            # shutil.copyfile("grid_params.txt",params_name_grid, overwrite=True)
-
             shutil.copyfile("grid_params.txt",params_name_grid)
 
+            ff = open(params_name_grid, "w")
+            ff.write("point_source = "+point_source)
+            ff.write("lambda_ap = "+lambda_ap)
+            ff.write("centering = "+centering)
+            ff.write("lambda_cent = "+lambda_cent)
+            ff.write("aperture_correction = "+aperture_correction)
+            ff.write("convolve = "+convolve)
 
-
+            
+            ff.close()
+            
+            
 
          return all_DFs, res_all, realData_all, all_dcts
 

@@ -120,8 +120,8 @@ class SubCube:
 
         self.CDELT2_arcsec = self.channel[9]                    #Second axis increment per pixel 
 
-        
-
+        self.CRVAL1 = self.channel[13]
+        self.CRVAL2 = self.channel[14]
         
 
         self.name_band = self.channel[10]
@@ -216,7 +216,7 @@ class SubCube:
 
 #%%
 
-    ##### Function for  Flux unit correction. onvert flux spectrum to My  #####
+    ##### Function for  Flux unit correction. Convert flux spectrum to My  #####
 
     ###############################################################################  
 
@@ -345,7 +345,7 @@ class SubCube:
             for i in range(len(self.apers[1])):
 
                 self.PSF_correction.append(np.array(np.array(self.PSF_inf_flux) / np.array(self.apers)[:,i]).T)       
-
+                
             # for i in range(len(self.apers[0])):
 
             #         self.PSF_correction.append(np.divide(np.array(self.PSF_inf_flux) , np.array(self.apers)[:,i]))
@@ -528,7 +528,7 @@ class SubCube:
 
           #%%        
 
-    def PSFCorrection(self,ratio):
+    def PSFCorrection(self,ratio, PSF_ls):
 
         self.spectrum_PSF_corrected = []
 
@@ -543,11 +543,25 @@ class SubCube:
             # PSF IS NOT FUNCTIONING CORRECTLY BECAUSE THERE IS NO OBSERVED PSF YET
 
             # ipdb.set_trace()
-
+            plt.title('Corrected Spectrum')
+            plt.plot(self.corrected_spectrum)
+            plt.show()
+            
+            
+            plt.title('RATIO')
+            plt.plot(ratio[0])
+            plt.show()
+            print(np.array(ratio).shape)
+            
+            plt.plot(self.ls, label = 'Data ls')
+            plt.plot(PSF_ls, label = 'PSF ls')
+            plt.legend()
+            plt.show()
             self.spectrum_PSF_corrected.append((np.array(self.corrected_spectrum)[:,i]* (np.array(ratio)[i,:])).T)
 
             self.error_PSF_corrected.append((np.array(self.error)[:,i]*(np.array(ratio)[i,:])).T)
-
+          
+            # self.ls --> refers to real data wavelength list
 
 
         if self.name_band == 'G140H':
@@ -1413,7 +1427,8 @@ class SubCube:
         for i in range(len(self.rs[0])):
 
             # print(self.xys[i][0], self.xys[i][1],  self.rs[0][0], np.array( self.rs)[0,0] )
-
+            # x_pix,y_pix,z_pix  = self.wcs.world_to_pixel(sky,self.ls[0] * u.um )
+            # EDW EINAI TO PROBLHMA TOU GRID
             aper = RectangularAperture([self.xys[i][0],self.xys[i][1]], self.rs[0][i], self.rs[0][i])
 
             apers.append(aper)
